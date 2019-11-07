@@ -133,6 +133,54 @@ def process_twitter(file_path, is_train_file, save_folder):
         valid_data = pd.DataFrame(valid_data, columns=valid_data.keys())
         valid_data.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
 
+## TO-DO IMPLEMENT THE PROCESS TO MAKE RAW TO UNDERSTAND IT FURTHER , AND TO SPLIT TRAIN/TEST
+def process_pandas(file_path, is_train_file, save_folder):
+    df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
+    df['Comment'] = df['Comment'].str.lower()
+    df['Prediction'] = df['Prediction'].str.lower()
+    start = []
+    end = []
+
+    for index, row in df.iterrows():
+        start_index = row['Comment'].str.find(row['Prediction'])
+        start.append(row['Comment'].find())
+        end
+
+    polarity = {'-1': 0, '0': 1, '1': 2}
+    content, aspect, sentiment, start, end = list(), list(), list(), list(), list()
+    with codecs.open(file_path, 'r', encoding='utf8')as reader:
+        lines = reader.readlines()
+        for i in range(0, len(lines), 3):
+            _content = lines[i].strip().lower()
+            _aspect = lines[i+1].strip().lower()
+            _sentiment = lines[i+2].strip().lower()
+            _start = _content.find('$t$')
+            _end = _start + len(_aspect)
+            content.append(_content.replace('$t$', _aspect))
+            aspect.append(_aspect)
+            sentiment.append(polarity[_sentiment])
+            start.append(_start)
+            end.append(_end)
+
+    if not os.path.exists(save_folder):
+        os.makedirs(save_folder)
+
+    if not is_train_file:
+        test_data = {'content': content, 'aspect': aspect, 'sentiment': sentiment, 'from': start, 'to': end}
+        test_data = pd.DataFrame(test_data, columns=test_data.keys())
+        test_data.to_csv(os.path.join(save_folder, 'test.csv'), index=None)
+    else:
+        train_content, valid_content, train_aspect, valid_aspect, train_senti, valid_senti, train_start, valid_start, \
+            train_end, valid_end = train_test_split(content, aspect, sentiment, start, end, test_size=0.1)
+        train_data = {'content': train_content, 'aspect': train_aspect, 'sentiment': train_senti,
+                      'from': train_start, 'to': train_end}
+        train_data = pd.DataFrame(train_data, columns=train_data.keys())
+        train_data.to_csv(os.path.join(save_folder, 'train.csv'), index=None)
+        valid_data = {'content': valid_content, 'aspect': valid_aspect, 'sentiment': valid_senti,
+                      'from': valid_start, 'to': valid_end}
+        valid_data = pd.DataFrame(valid_data, columns=valid_data.keys())
+        valid_data.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
+
 
 def process_fsauor(file_path, save_path):
     folder = os.path.dirname(save_path)
@@ -180,13 +228,13 @@ def process_bdci(file_path, is_train_file, save_folder):
 
 
 if __name__ == '__main__':
-    process_xml('./raw_data/semeval14_laptop/Laptop_Train_v2.xml', is_train_file=True, save_folder='./data/laptop')
-    process_xml('./raw_data/semeval14_laptop/Laptops_Test_Gold.xml', is_train_file=False, save_folder='./data/laptop')
+   # process_xml('./raw_data/semeval14_laptop/Laptop_Train_v2.xml', is_train_file=True, save_folder='./data/laptop')
+   # process_xml('./raw_data/semeval14_laptop/Laptops_Test_Gold.xml', is_train_file=False, save_folder='./data/laptop')
 
-    process_xml('./raw_data/semeval14_restaurant/Restaurants_Train_v2.xml', is_train_file=True,
-                save_folder='./data/restaurant')
-    process_xml('./raw_data/semeval14_restaurant/Restaurants_Test_Gold.xml', is_train_file=False,
-                save_folder='./data/restaurant')
+   # process_xml('./raw_data/semeval14_restaurant/Restaurants_Train_v2.xml', is_train_file=True,
+   #             save_folder='./data/restaurant')
+   # process_xml('./raw_data/semeval14_restaurant/Restaurants_Test_Gold.xml', is_train_file=False,
+   #             save_folder='./data/restaurant')
 
     process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
     process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')

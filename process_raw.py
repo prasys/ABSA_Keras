@@ -20,6 +20,7 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 from sklearn.model_selection import train_test_split
 import random
+import re
 
 
 def process_xml(file_path, is_train_file, save_folder):
@@ -156,7 +157,11 @@ def process_pandas(file_path, is_train_file, save_folder):
             else:
                 sentScore = 1 # there is only 1 target 
             for token in tokens:
-                start_index = row['Comment'].find(token)
+                m = re.search(r'\b'+ re.escape(token) +r'\b', row['Comment'], re.IGNORECASE)
+                if m:
+                    start_index = m.start()
+                else:
+                    start_index = row['Comment'].find(token)
                 end_index = start_index + len(token)
                 text.append(row['Comment'])
                 target.append(token)

@@ -109,3 +109,4 @@ ckpt/
 raw_data/bdci18_car
 fsauor2018
 raw_data/glove.42B.300d.*
+raw_data/glove.twitter.27B.25d.txt

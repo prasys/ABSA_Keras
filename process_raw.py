@@ -166,10 +166,10 @@ def process_pandas(file_path, is_train_file, save_folder):
         else:
             word = random.choice(row['Comment'].split())
             sentScore = 0 # we will set 0 to be very weak
-            start_index = row['Comment'].find(token)
-            end_index = start_index + len(token)
+            start_index = row['Comment'].find(word)
+            end_index = start_index + len(word)
             text.append(row['Comment'])
-            target.append(token)
+            target.append(word)
             leftIndex.append(start_index)
             rightIndex.append(end_index)
             sentiment.append(sentScore)
@@ -242,9 +242,9 @@ if __name__ == '__main__':
    # process_xml('./raw_data/semeval14_restaurant/Restaurants_Test_Gold.xml', is_train_file=False,
    #             save_folder='./data/restaurant')
 
-  #  process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
+    process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
     process_pandas('./raw_data/alta/train_22.csv', is_train_file=True, save_folder='./data/alta')
-  #  process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
+    process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
 
     # process_fsauor('./raw_data/fsauor2018/train.csv', save_path='./data/fsauor/train.csv')
     # process_fsauor('./raw_data/fsauor2018/valid.csv', save_path='./data/fsauor/valid.csv')

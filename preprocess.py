@@ -171,16 +171,22 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
         _pos_input, _offset_input = get_loc_info(char_list, start, end)
         char_pos_input.append(_pos_input)
         char_offset_input.append(_offset_input)
-
+        # Situation for the word_list with that thing is empty , need to find out why it happens. In order for me to understand deeper
         word_list_l = word_cut_func(text[:start])
         word_list_r = word_cut_func(text[end:])
         start = len(word_list_l)
         end = len(word_list) - len(word_list_r)
+        print("WORD LIST IS ")
+        print(word_list[start:end])
+        print("ASPECT LIST DEUBBER")
+        print(word_cut_func(aspect))
         if word_list[start:end] != word_cut_func(aspect):
             if word_list[start-1:end] == word_cut_func(aspect):
                 start -= 1
+                print('SIT 1')
             elif word_list[start:end+1] == word_cut_func(aspect):
                 end += 1
+                print('SIT 2')
             else:
                 raise Exception('Can not find aspect `{}` in `{}`, word list : `{}`'.format(aspect, text, word_list))
         word_input_l.append(list(map(lambda x: word_vocab.get(x, len(word_vocab)+1), word_list[:end])))
@@ -200,18 +206,26 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
 def pre_process(file_folder, word_cut_func, is_en):
     print('preprocessing: ', file_folder)
     train_data = pd.read_csv(os.path.join(file_folder, 'train.csv'), header=0, index_col=None)
+    train_data['content'] = train_data['content'].astype(str)
+    train_data['aspect'] = train_data['aspect'].astype(str)
     train_data['word_list'] = train_data['content'].apply(word_cut_func)
     train_data['char_list'] = train_data['content'].apply(lambda x: list(x))
     train_data['aspect_word_list'] = train_data['aspect'].apply(word_cut_func)
     train_data['aspect_char_list'] = train_data['aspect'].apply(lambda x: list(x))
+    print("OUTPUT IS READY!")
+    train_data.to_csv('output_train.csv')
 
     valid_data = pd.read_csv(os.path.join(file_folder, 'valid.csv'), header=0, index_col=None)
+    valid_data['content'] = valid_data['content'].astype(str)
+    valid_data['aspect'] = valid_data['aspect'].astype(str)
     valid_data['word_list'] = valid_data['content'].apply(word_cut_func)
     valid_data['char_list'] = valid_data['content'].apply(lambda x: list(x))
     valid_data['aspect_word_list'] = valid_data['aspect'].apply(word_cut_func)
     valid_data['aspect_char_list'] = valid_data['aspect'].apply(lambda x: list(x))
 
     test_data = pd.read_csv(os.path.join(file_folder, 'test.csv'), header=0, index_col=None)
+    test_data['content'] = test_data['content'].astype(str)
+    test_data['aspect'] = test_data['aspect'].astype(str)
     test_data['word_list'] = test_data['content'].apply(word_cut_func)
     test_data['char_list'] = test_data['content'].apply(lambda x: list(x))
     test_data['aspect_word_list'] = test_data['aspect'].apply(word_cut_func)

@@ -19,6 +19,7 @@ import codecs
 import pandas as pd
 import xml.etree.ElementTree as ET
 from sklearn.model_selection import train_test_split
+import random
 
 
 def process_xml(file_path, is_train_file, save_folder):
@@ -133,53 +134,58 @@ def process_twitter(file_path, is_train_file, save_folder):
         valid_data = pd.DataFrame(valid_data, columns=valid_data.keys())
         valid_data.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
 
-## TO-DO IMPLEMENT THE PROCESS TO MAKE RAW TO UNDERSTAND IT FURTHER , AND TO SPLIT TRAIN/TEST
+## TO-DO IMPLEMENT THE PROCESS TO MAKE RAW TO UNDERSTAND IT FURTHER
 def process_pandas(file_path, is_train_file, save_folder):
     df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
     df['Comment'] = df['Comment'].str.lower()
     df['Prediction'] = df['Prediction'].str.lower()
-    start = []
-    end = []
+    df['Prediction'] = df['Prediction'].astype(str) #make them as str
+    text = []
+    target = []
+    sentScore = 1
+    leftIndex = []
+    rightIndex = []
+    sentiment = []
+    dfObj = pd.DataFrame(columns=['content', 'aspect', 'sentiment','from','to'])
 
     for index, row in df.iterrows():
-        start_index = row['Comment'].str.find(row['Prediction'])
-        start.append(row['Comment'].find())
-        end
+        if row['Label'] is 0:
+            tokens = row['Prediction'].split(' ')
+            if len(tokens) > 1:
+                sentScore = 2 # the target has multiple
+            else:
+                sentScore = 1 # there is only 1 target 
+            for token in tokens:
+                start_index = row['Comment'].find(token)
+                end_index = start_index + len(token)
+                text.append(row['Comment'])
+                target.append(token)
+                leftIndex.append(start_index)
+                rightIndex.append(end_index)
+                sentiment.append(sentScore)
+        else:
+            word = random.choice(row['Comment'].split())
+            sentScore = 0 # we will set 0 to be very weak
+            start_index = row['Comment'].find(token)
+            end_index = start_index + len(token)
+            text.append(row['Comment'])
+            target.append(token)
+            leftIndex.append(start_index)
+            rightIndex.append(end_index)
+            sentiment.append(sentScore)
 
-    polarity = {'-1': 0, '0': 1, '1': 2}
-    content, aspect, sentiment, start, end = list(), list(), list(), list(), list()
-    with codecs.open(file_path, 'r', encoding='utf8')as reader:
-        lines = reader.readlines()
-        for i in range(0, len(lines), 3):
-            _content = lines[i].strip().lower()
-            _aspect = lines[i+1].strip().lower()
-            _sentiment = lines[i+2].strip().lower()
-            _start = _content.find('$t$')
-            _end = _start + len(_aspect)
-            content.append(_content.replace('$t$', _aspect))
-            aspect.append(_aspect)
-            sentiment.append(polarity[_sentiment])
-            start.append(_start)
-            end.append(_end)
+    
+    dfObj['content'] =text
+    dfObj['aspect'] =target
+    dfObj['sentiment'] = sentiment
+    dfObj['from'] =leftIndex
+    dfObj['to'] = rightIndex
+    X_train, X_test = train_test_split(dfObj,test_size=0.33, random_state=42)
+    xTest,xValidate = train_test_split(X_test,test_size=0.10, random_state=42)
 
-    if not os.path.exists(save_folder):
-        os.makedirs(save_folder)
-
-    if not is_train_file:
-        test_data = {'content': content, 'aspect': aspect, 'sentiment': sentiment, 'from': start, 'to': end}
-        test_data = pd.DataFrame(test_data, columns=test_data.keys())
-        test_data.to_csv(os.path.join(save_folder, 'test.csv'), index=None)
-    else:
-        train_content, valid_content, train_aspect, valid_aspect, train_senti, valid_senti, train_start, valid_start, \
-            train_end, valid_end = train_test_split(content, aspect, sentiment, start, end, test_size=0.1)
-        train_data = {'content': train_content, 'aspect': train_aspect, 'sentiment': train_senti,
-                      'from': train_start, 'to': train_end}
-        train_data = pd.DataFrame(train_data, columns=train_data.keys())
-        train_data.to_csv(os.path.join(save_folder, 'train.csv'), index=None)
-        valid_data = {'content': valid_content, 'aspect': valid_aspect, 'sentiment': valid_senti,
-                      'from': valid_start, 'to': valid_end}
-        valid_data = pd.DataFrame(valid_data, columns=valid_data.keys())
-        valid_data.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
+    X_train.to_csv(os.path.join(save_folder, 'train.csv'), index=None)
+    xTest.to_csv(os.path.join(save_folder, 'test.csv'), index=None)
+    xValidate.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
 
 
 def process_fsauor(file_path, save_path):
@@ -236,8 +242,9 @@ if __name__ == '__main__':
    # process_xml('./raw_data/semeval14_restaurant/Restaurants_Test_Gold.xml', is_train_file=False,
    #             save_folder='./data/restaurant')
 
-    process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
-    process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
+  #  process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
+    process_pandas('./raw_data/alta/train_22.csv', is_train_file=True, save_folder='./data/alta')
+  #  process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
 
     # process_fsauor('./raw_data/fsauor2018/train.csv', save_path='./data/fsauor/train.csv')
     # process_fsauor('./raw_data/fsauor2018/valid.csv', save_path='./data/fsauor/valid.csv')

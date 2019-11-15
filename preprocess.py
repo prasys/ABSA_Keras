@@ -183,10 +183,10 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
         if word_list[start:end] != word_cut_func(aspect):
             if word_list[start-1:end] == word_cut_func(aspect):
                 start -= 1
-                print('SIT 1')
+               # print('SIT 1')
             elif word_list[start:end+1] == word_cut_func(aspect):
                 end += 1
-                print('SIT 2')
+              #  print('SIT 2')
             else:
                 raise Exception('Can not find aspect `{}` in `{}`, word list : `{}`'.format(aspect, text, word_list))
         word_input_l.append(list(map(lambda x: word_vocab.get(x, len(word_vocab)+1), word_list[:end])))

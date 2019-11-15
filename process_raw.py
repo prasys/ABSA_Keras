@@ -23,6 +23,11 @@ import random
 import re
 
 
+
+def cleanSpecialCharacters(text):
+    return (re.sub( '[^a-z0-9\']', ' ', text))
+
+
 def process_xml(file_path, is_train_file, save_folder):
     content_term, aspect_term, sentiment_term, start, end = list(), list(), list(), list(), list() # data for aspect term
     content_cate, aspect_cate, sentiment_cate = list(), list(), list()      # data for aspect category
@@ -139,8 +144,10 @@ def process_twitter(file_path, is_train_file, save_folder):
 def process_pandas(file_path, is_train_file, save_folder):
     df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
     df['Comment'] = df['Comment'].str.lower()
-    df['Prediction'] = df['Prediction'].str.lower()
+    df['Comment'] = df['Comment'].apply(cleanSpecialCharacters)
     df['Prediction'] = df['Prediction'].astype(str) #make them as str
+    df['Prediction'] = df['Prediction'].str.lower()
+    df['Prediction'] = df['Prediction'].apply(cleanSpecialCharacters)
     text = []
     target = []
     sentScore = 1
@@ -171,7 +178,11 @@ def process_pandas(file_path, is_train_file, save_folder):
         else:
             word = random.choice(row['Comment'].split())
             sentScore = 0 # we will set 0 to be very weak
-            start_index = row['Comment'].find(word)
+            m = re.search(r'\b'+ re.escape(word) +r'\b', row['Comment'], re.IGNORECASE)
+            if m:
+                start_index = m.start()
+            else:
+                start_index = row['Comment'].find(word)
             end_index = start_index + len(word)
             text.append(row['Comment'])
             target.append(word)

@@ -21,7 +21,10 @@ import xml.etree.ElementTree as ET
 from sklearn.model_selection import train_test_split
 import random
 import re
-import spacy 
+import spacy
+from spacy.lang.en import English
+from spacy.tokenizer import Tokenizer
+
 
 
 
@@ -336,7 +339,8 @@ def process_bdci(file_path, is_train_file, save_folder):
 
 
 if __name__ == '__main__':
-    nlp = spacy.load("en_core_web_sm") 
+    nlp = spacy.load("en_core_web_sm")
+    nlp.tokenizer = Tokenizer(nlp.vocab)
    # process_xml('./raw_data/semeval14_laptop/Laptop_Train_v2.xml', is_train_file=True, save_folder='./data/laptop')
    # process_xml('./raw_data/semeval14_laptop/Laptops_Test_Gold.xml', is_train_file=False, save_folder='./data/laptop')
 

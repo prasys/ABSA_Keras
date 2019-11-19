@@ -189,12 +189,16 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
         # Situation for the word_list with that thing is empty , need to find out why it happens. In order for me to understand deeper
         word_list_l = word_cut_func(text[:start])
         word_list_r = word_cut_func(text[end:])
+        print(word_list_l) # to DEBUG TOMORROW
+        print(word_list_r) # to DEBUG TOMORROW
         start = len(word_list_l)
         end = len(word_list) - len(word_list_r)
         print("WORD LIST IS ")
         print(word_list[start:end])
         print("ASPECT LIST DEUBBER")
         print(word_cut_func(aspect))
+      #  print("start vecot is",start)
+       # print("end vector is",end)
         if word_list[start:end] != word_cut_func(aspect):
             if word_list[start-1:end] == word_cut_func(aspect):
                 start -= 1
@@ -227,8 +231,8 @@ def pre_process(file_folder, word_cut_func, is_en):
     train_data['char_list'] = train_data['content'].parallel_apply(lambda x: list(x))
     train_data['aspect_word_list'] = train_data['aspect'].parallel_apply(word_cut_func)
     train_data['aspect_char_list'] = train_data['aspect'].parallel_apply(lambda x: list(x))
-   # print("OUTPUT IS READY!")
-   # train_data.to_csv('output_train.csv')
+    print("OUTPUT IS READY!")
+    train_data.to_csv('output_train.csv')
 
     valid_data = pd.read_csv(os.path.join(file_folder, 'valid.csv'), header=0, index_col=None)
     valid_data['content'] = valid_data['content'].astype(str)

@@ -21,7 +21,7 @@ import xml.etree.ElementTree as ET
 from sklearn.model_selection import train_test_split
 import random
 import re
-import spacy 
+import spacy
 
 
 
@@ -142,9 +142,9 @@ def process_twitter(file_path, is_train_file, save_folder):
         valid_data.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
 
 ## TO-DO IMPLEMENT THE PROCESS TO MAKE RAW TO UNDERSTAND IT FURTHER
-def process_pandas(file_path, is_train_file, save_folder):
+def process_pandas(file_path, save_folder):
     df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
-    df['Comment'] = df['Comment'].str.lower()
+    df['Comment'] = df['Comment'].str.lower() 
     df['Comment'] = df['Comment'].apply(cleanSpecialCharacters)
     df['Prediction'] = df['Prediction'].astype(str) #make them as str
     df['Prediction'] = df['Prediction'].str.lower()
@@ -159,7 +159,13 @@ def process_pandas(file_path, is_train_file, save_folder):
 
     for index, row in df.iterrows():
         if row['Label'] is 0:
-            tokens = row['Prediction'].split(' ')
+            pred = nlp(row['Prediction'])
+            words = nlp(row['Comment'])
+            #words  = row['Comment'].split(' ') #split the word tokens
+            for word in words:
+
+
+
             if len(tokens) > 1:
                 sentScore = 2 # the target has multiple
             else:
@@ -194,94 +200,9 @@ def process_pandas(file_path, is_train_file, save_folder):
     
     dfObj['content'] =text
     dfObj['aspect'] =target
-    dfObj['aspect'] = df['aspect'].astype(str)
-    dfObj['aspect'] = dfObj['aspect'].str.lower() #make everything lower case 
     dfObj['sentiment'] = sentiment
     dfObj['from'] =leftIndex
     dfObj['to'] = rightIndex
-    X_train, X_test = train_test_split(dfObj,test_size=0.33, random_state=42)
-    xTest,xValidate = train_test_split(X_test,test_size=0.10, random_state=42)
-
-    X_train.to_csv(os.path.join(save_folder, 'train.csv'), index=None)
-    xTest.to_csv(os.path.join(save_folder, 'test.csv'), index=None)
-    xValidate.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
-
-
-def process_pandas2(file_path, is_train_file, save_folder):
-    df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
-    df['Comment'] = df['Comment'].str.lower()
-   # df['Comment'] = df['Comment'].apply(cleanSpecialCharacters)
-    df['Prediction'] = df['Prediction'].astype(str) #make them as str
-    df['Prediction'] = df['Prediction'].str.lower()
-    #df['Prediction'] = df['Prediction'].apply(cleanSpecialCharacters)
-    text = []
-    target = []
-    sentScore = 0
-    leftIndex = []
-    rightIndex = []
-    sentiment = []
-    dfObj = pd.DataFrame(columns=['content', 'aspect', 'sentiment','from','to'])
-
-    for index, row in df.iterrows():
-        if (row['Label'] != 3): # if it's all - stupid check , need to do it etter
-            
-           # print(tokens)
-          #  sentScore = 0
-
-
-           # print("SentScore is ",sentScore)
-
-            tokens = nlp(row['Comment']) # get the stuff
-            truths =  nlp(row['Prediction'])
-            isFound = False
-
-            for token in tokens:
-                if token.is_punct is False:
-                    for truth in truths:
-                        isFound = False
-                        if(truth.orth_ == token.orth_): #if we have found a match
-                            m = re.search(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # NEED TO RE-WRITE PROPERLY
-                            if m:
-                                start_index = m.start()
-                                end_index = start_index + len(truth.orth_)
-                                sentScore = 1
-                                text.append(row['Comment'])
-                                target.append(truth.orth_)
-                                leftIndex.append(start_index)
-                                rightIndex.append(end_index)
-                                sentiment.append(sentScore)
-                                isFound = True
-                                break
-                            else:
-                                start_index = row['Comment'].find(truth.orth_)
-                                end_index = start_index + len(truth.orth_)
-                                text.append(row['Comment'])
-                                target.append(truth.orth_)
-                                sentScore = 1
-                                leftIndex.append(start_index)
-                                rightIndex.append(end_index)
-                                sentiment.append(sentScore)
-                                isFound = True
-                                break
-                    if(isFound == False):
-                        m = re.search(r'\b'+ re.escape(token.orth_) +r'\b', row['Comment'], re.IGNORECASE)
-                        if m:
-                            start_index = m.start()
-                        else:
-                            start_index = row['Comment'].find(token.orth_)
-                        end_index = start_index + len(token.orth_)
-                        text.append(row['Comment'])
-                        target.append(token)
-                        leftIndex.append(start_index)
-                        rightIndex.append(end_index)
-                        sentScore = 0
-                        sentiment.append(sentScore)
-    dfObj['content'] =text
-    dfObj['aspect'] =target
-    dfObj['sentiment'] = sentiment
-    dfObj['from'] =leftIndex
-    dfObj['to'] = rightIndex
-    dfObj.to_csv(os.path.join(save_folder, 'full_split.csv'), index=None)
     X_train, X_test = train_test_split(dfObj,test_size=0.33, random_state=42)
     xTest,xValidate = train_test_split(X_test,test_size=0.10, random_state=42)
 
@@ -336,7 +257,7 @@ def process_bdci(file_path, is_train_file, save_folder):
 
 
 if __name__ == '__main__':
-    nlp = spacy.load("en_core_web_sm") 
+   nlp = spacy.load("en_core_web_sm") 
    # process_xml('./raw_data/semeval14_laptop/Laptop_Train_v2.xml', is_train_file=True, save_folder='./data/laptop')
    # process_xml('./raw_data/semeval14_laptop/Laptops_Test_Gold.xml', is_train_file=False, save_folder='./data/laptop')
 
@@ -345,9 +266,9 @@ if __name__ == '__main__':
    # process_xml('./raw_data/semeval14_restaurant/Restaurants_Test_Gold.xml', is_train_file=False,
    #             save_folder='./data/restaurant')
 
-   # process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
-    process_pandas2('./raw_data/alta/train_22.csv', is_train_file=True, save_folder='./data/alta2')
-   # process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
+    process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
+    process_pandas('./raw_data/alta/train_22.csv', is_train_file=True, save_folder='./data/alta')
+    process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
 
     # process_fsauor('./raw_data/fsauor2018/train.csv', save_path='./data/fsauor/train.csv')
     # process_fsauor('./raw_data/fsauor2018/valid.csv', save_path='./data/fsauor/valid.csv')

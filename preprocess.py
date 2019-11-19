@@ -465,4 +465,5 @@ if __name__ == '__main__':
     #pre_process('./data/restaurant/term', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/restaurant/category', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/twitter', lambda x: nltk.word_tokenize(x), True)
-    pre_process('./data/alta', lambda x: nltk.word_tokenize(x), True)
+    #pre_process('./data/alta', lambda x: nltk.word_tokenize(x), True)
+    pre_process('./data/alta2', lambda x: nltk.word_tokenize(x), True)

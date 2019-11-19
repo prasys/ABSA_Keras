@@ -22,6 +22,7 @@ from gensim.models import Word2Vec
 from gensim.models import KeyedVectors
 from config import Config
 from utils import pickle_dump
+import spacy
 
 
 def load_glove_format(filename):
@@ -49,6 +50,16 @@ def list_flatten(l):
         else:
             result.append(item)
     return result
+
+def spacyTokenizer(text):
+    text = text.lower()
+    doc = nlp(text)
+    tokens = []
+    for token in doc:
+        if token.is_punct is False:
+            tokens.append(token.orth_)
+    return tokens
+
 
 
 def build_vocabulary(corpus, start_id=1):
@@ -460,10 +471,11 @@ def pre_process(file_folder, word_cut_func, is_en):
 if __name__ == '__main__':
     config = Config()
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
-
+    nlp = spacy.load("en_core_web_sm") 
     #pre_process('./data/laptop/term', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/restaurant/term', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/restaurant/category', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/twitter', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/alta', lambda x: nltk.word_tokenize(x), True)
-    pre_process('./data/alta2', lambda x: nltk.word_tokenize(x), True)
+   # pre_process('./data/alta2', lambda x: nltk.word_tokenize(x), True)
+    pre_process('./data/alta2', lambda x: spacyTokenizer(x), True)

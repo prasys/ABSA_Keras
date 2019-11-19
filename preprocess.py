@@ -23,6 +23,7 @@ from gensim.models import KeyedVectors
 from config import Config
 from utils import pickle_dump
 import spacy
+from pandarallel import pandarallel #make things go fasterrr
 
 
 def load_glove_format(filename):
@@ -57,7 +58,10 @@ def spacyTokenizer(text):
     tokens = []
     for token in doc:
         if token.is_punct is False:
-            tokens.append(token.orth_)
+            if token.orth_ == 've': #special handling case
+                tokens.append("'ve")
+            else:
+                tokens.append(token.orth_)
     return tokens
 
 
@@ -219,28 +223,28 @@ def pre_process(file_folder, word_cut_func, is_en):
     train_data = pd.read_csv(os.path.join(file_folder, 'train.csv'), header=0, index_col=None)
     train_data['content'] = train_data['content'].astype(str)
     train_data['aspect'] = train_data['aspect'].astype(str)
-    train_data['word_list'] = train_data['content'].apply(word_cut_func)
-    train_data['char_list'] = train_data['content'].apply(lambda x: list(x))
-    train_data['aspect_word_list'] = train_data['aspect'].apply(word_cut_func)
-    train_data['aspect_char_list'] = train_data['aspect'].apply(lambda x: list(x))
-    print("OUTPUT IS READY!")
-    train_data.to_csv('output_train.csv')
+    train_data['word_list'] = train_data['content'].parallel_apply(word_cut_func)
+    train_data['char_list'] = train_data['content'].parallel_apply(lambda x: list(x))
+    train_data['aspect_word_list'] = train_data['aspect'].parallel_apply(word_cut_func)
+    train_data['aspect_char_list'] = train_data['aspect'].parallel_apply(lambda x: list(x))
+   # print("OUTPUT IS READY!")
+   # train_data.to_csv('output_train.csv')
 
     valid_data = pd.read_csv(os.path.join(file_folder, 'valid.csv'), header=0, index_col=None)
     valid_data['content'] = valid_data['content'].astype(str)
     valid_data['aspect'] = valid_data['aspect'].astype(str)
-    valid_data['word_list'] = valid_data['content'].apply(word_cut_func)
-    valid_data['char_list'] = valid_data['content'].apply(lambda x: list(x))
-    valid_data['aspect_word_list'] = valid_data['aspect'].apply(word_cut_func)
-    valid_data['aspect_char_list'] = valid_data['aspect'].apply(lambda x: list(x))
+    valid_data['word_list'] = valid_data['content'].parallel_apply(word_cut_func)
+    valid_data['char_list'] = valid_data['content'].parallel_apply(lambda x: list(x))
+    valid_data['aspect_word_list'] = valid_data['aspect'].parallel_apply(word_cut_func)
+    valid_data['aspect_char_list'] = valid_data['aspect'].parallel_apply(lambda x: list(x))
 
     test_data = pd.read_csv(os.path.join(file_folder, 'test.csv'), header=0, index_col=None)
     test_data['content'] = test_data['content'].astype(str)
     test_data['aspect'] = test_data['aspect'].astype(str)
-    test_data['word_list'] = test_data['content'].apply(word_cut_func)
-    test_data['char_list'] = test_data['content'].apply(lambda x: list(x))
-    test_data['aspect_word_list'] = test_data['aspect'].apply(word_cut_func)
-    test_data['aspect_char_list'] = test_data['aspect'].apply(lambda x: list(x))
+    test_data['word_list'] = test_data['content'].parallel_apply(word_cut_func)
+    test_data['char_list'] = test_data['content'].parallel_apply(lambda x: list(x))
+    test_data['aspect_word_list'] = test_data['aspect'].parallel_apply(word_cut_func)
+    test_data['aspect_char_list'] = test_data['aspect'].parallel_apply(lambda x: list(x))
 
     print('size of training set:', len(train_data))
     print('size of valid set:', len(valid_data))
@@ -328,17 +332,17 @@ def pre_process(file_folder, word_cut_func, is_en):
 
     # prepare input
     print('preparing text input...')
-    train_word_input = train_data['word_list'].apply(
+    train_word_input = train_data['word_list'].parallel_apply(
         lambda x: [word_vocab.get(word, len(word_vocab)+1) for word in x]).values.tolist()
-    train_char_input = train_data['char_list'].apply(
+    train_char_input = train_data['char_list'].parallel_apply(
         lambda x: [char_vocab.get(char, len(char_vocab)+1) for char in x]).values.tolist()
-    valid_word_input = valid_data['word_list'].apply(
+    valid_word_input = valid_data['word_list'].parallel_apply(
         lambda x: [word_vocab.get(word, len(word_vocab)+1) for word in x]).values.tolist()
-    valid_char_input = valid_data['char_list'].apply(
+    valid_char_input = valid_data['char_list'].parallel_apply(
         lambda x: [char_vocab.get(char, len(char_vocab)+1) for char in x]).values.tolist()
-    test_word_input = test_data['word_list'].apply(
+    test_word_input = test_data['word_list'].parallel_apply(
         lambda x: [word_vocab.get(word, len(word_vocab)+1) for word in x]).values.tolist()
-    test_char_input = test_data['char_list'].apply(
+    test_char_input = test_data['char_list'].parallel_apply(
         lambda x: [char_vocab.get(char, len(char_vocab)+1) for char in x]).values.tolist()
     pickle_dump(train_word_input, os.path.join(file_folder, 'train_word_input.pkl'))
     pickle_dump(train_char_input, os.path.join(file_folder, 'train_char_input.pkl'))
@@ -353,26 +357,26 @@ def pre_process(file_folder, word_cut_func, is_en):
     analyze_len_distribution(train_char_input, valid_char_input, test_char_input)
 
     print('preparing aspect input...')
-    train_aspect_input = train_data['aspect'].apply(lambda x: [aspect_vocab[x]]).values.tolist()
-    valid_aspect_input = valid_data['aspect'].apply(lambda x: [aspect_vocab[x]]).values.tolist()
-    test_aspect_input = test_data['aspect'].apply(lambda x: [aspect_vocab[x]]).values.tolist()
+    train_aspect_input = train_data['aspect'].parallel_apply(lambda x: [aspect_vocab[x]]).values.tolist()
+    valid_aspect_input = valid_data['aspect'].parallel_apply(lambda x: [aspect_vocab[x]]).values.tolist()
+    test_aspect_input = test_data['aspect'].parallel_apply(lambda x: [aspect_vocab[x]]).values.tolist()
     pickle_dump(train_aspect_input, os.path.join(file_folder, 'train_aspect_input.pkl'))
     pickle_dump(valid_aspect_input, os.path.join(file_folder, 'valid_aspect_input.pkl'))
     pickle_dump(test_aspect_input, os.path.join(file_folder, 'test_aspect_input.pkl'))
     print('finished preparing aspect input!')
 
     print('preparing aspect text input...')
-    train_aspect_text_word_input = train_data['aspect_word_list'].apply(
+    train_aspect_text_word_input = train_data['aspect_word_list'].parallel_apply(
         lambda x: [aspect_text_word_vocab.get(word, len(aspect_text_word_vocab) + 1) for word in x]).values.tolist()
-    train_aspect_text_char_input = train_data['aspect_char_list'].apply(
+    train_aspect_text_char_input = train_data['aspect_char_list'].parallel_apply(
         lambda x: [aspect_text_char_vocab.get(char, len(aspect_text_char_vocab) + 1) for char in x]).values.tolist()
-    valid_aspect_text_word_input = valid_data['aspect_word_list'].apply(
+    valid_aspect_text_word_input = valid_data['aspect_word_list'].parallel_apply(
         lambda x: [aspect_text_word_vocab.get(word, len(aspect_text_word_vocab) + 1) for word in x]).values.tolist()
-    valid_aspect_text_char_input = valid_data['aspect_char_list'].apply(
+    valid_aspect_text_char_input = valid_data['aspect_char_list'].parallel_apply(
         lambda x: [aspect_text_char_vocab.get(char, len(aspect_text_char_vocab) + 1) for char in x]).values.tolist()
-    test_aspect_text_word_input = test_data['aspect_word_list'].apply(
+    test_aspect_text_word_input = test_data['aspect_word_list'].parallel_apply(
         lambda x: [aspect_text_word_vocab.get(word, len(aspect_text_word_vocab) + 1) for word in x]).values.tolist()
-    test_aspect_text_char_input = test_data['aspect_char_list'].apply(
+    test_aspect_text_char_input = test_data['aspect_char_list'].parallel_apply(
         lambda x: [aspect_text_char_vocab.get(char, len(aspect_text_char_vocab) + 1) for char in x]).values.tolist()
     pickle_dump(train_aspect_text_word_input, os.path.join(file_folder, 'train_word_aspect_input.pkl'))
     pickle_dump(train_aspect_text_char_input, os.path.join(file_folder, 'train_char_aspect_input.pkl'))
@@ -471,7 +475,9 @@ def pre_process(file_folder, word_cut_func, is_en):
 if __name__ == '__main__':
     config = Config()
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
-    nlp = spacy.load("en_core_web_sm") 
+    nlp = spacy.load("en_core_web_sm")
+    pandarallel.initialize(progress_bar=True)
+
     #pre_process('./data/laptop/term', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/restaurant/term', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/restaurant/category', lambda x: nltk.word_tokenize(x), True)

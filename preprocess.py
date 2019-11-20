@@ -24,6 +24,7 @@ from config import Config
 from utils import pickle_dump
 import spacy
 from pandarallel import pandarallel #make things go fasterrr
+CORES = 32
 
 
 def load_glove_format(filename):
@@ -480,7 +481,7 @@ if __name__ == '__main__':
     config = Config()
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     nlp = spacy.load("en_core_web_sm")
-    pandarallel.initialize(progress_bar=True)
+    pandarallel.initialize(nb_workers=CORES)
 
     #pre_process('./data/laptop/term', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/restaurant/term', lambda x: nltk.word_tokenize(x), True)

@@ -25,7 +25,7 @@ import spacy
 from spacy.lang.en import English
 from spacy.tokenizer import Tokenizer
 
-
+RANDOMSTATE = 21
 
 
 def cleanSpecialCharacters(text):
@@ -285,8 +285,8 @@ def process_pandas2(file_path, is_train_file, save_folder):
     dfObj['from'] =leftIndex
     dfObj['to'] = rightIndex
     #dfObj.to_csv(os.path.join(save_folder, 'full_split.csv'), index=None)
-    X_train, X_test = train_test_split(dfObj,test_size=0.33, random_state=42)
-    xTest,xValidate = train_test_split(X_test,test_size=0.10, random_state=42)
+    X_train, X_test = train_test_split(dfObj,test_size=0.25, random_state=10000)
+    xTest,xValidate = train_test_split(X_test,test_size=0.01, random_state=10000)
 
     X_train.to_csv(os.path.join(save_folder, 'train.csv'), index=None)
     xTest.to_csv(os.path.join(save_folder, 'test.csv'), index=None)

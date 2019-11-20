@@ -194,10 +194,10 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
         print(word_list_r) # to DEBUG TOMORROW
         start = len(word_list_l)
         end = len(word_list) - len(word_list_r)
-        print("WORD LIST IS ")
-        print(word_list[start:end])
-        print("ASPECT LIST DEUBBER")
-        print(word_cut_func(aspect))
+       # print("WORD LIST IS ")
+       # print(word_list[start:end])
+       # print("ASPECT LIST DEUBBER")
+       # print(word_cut_func(aspect))
       #  print("start vecot is",start)
        # print("end vector is",end)
         if word_list[start:end] != word_cut_func(aspect):
@@ -445,6 +445,7 @@ def pre_process(file_folder, word_cut_func, is_en):
         pickle_dump(test_word_mask, os.path.join(file_folder, 'test_word_mask.pkl'))
         pickle_dump(test_word_pos_input, os.path.join(file_folder, 'test_word_pos_input.pkl'))
         pickle_dump(test_word_offset_input, os.path.join(file_folder, 'test_word_offset_input.pkl'))
+        print("Test Word Output")
         pickle_dump(test_char_input_l, os.path.join(file_folder, 'test_char_input_l.pkl'))
         pickle_dump(test_char_input_r, os.path.join(file_folder, 'test_char_input_r.pkl'))
         pickle_dump(test_char_input_r_with_pad, os.path.join(file_folder, 'test_char_input_r_with_pad.pkl'))

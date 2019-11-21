@@ -31,6 +31,20 @@ RANDOMSTATE = 21
 def cleanSpecialCharacters(text):
     return (re.sub( '[^a-z0-9\']', ' ', text))
 
+def scrub_words(text):
+    """Basic cleaning of texts."""
+    """Taken from https://github.com/kavgan/nlp-in-practice/blob/master/text-pre-processing/Text%20Preprocessing%20Examples.ipynb """
+    
+    # remove html markup
+    text=re.sub("(<.*?>)","",text)
+    
+    #remove non-ascii and digits
+    text=re.sub("(\\W|\\d)"," ",text)
+    
+    #remove whitespace
+    #text=text.strip()
+    return text
+
 
 def process_xml(file_path, is_train_file, save_folder):
     content_term, aspect_term, sentiment_term, start, end = list(), list(), list(), list(), list() # data for aspect term
@@ -211,8 +225,12 @@ def process_pandas(file_path, is_train_file, save_folder):
     xValidate.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
 
 
-def process_pandas2(file_path, is_train_file, save_folder):
+def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
     df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
+    if isClean is True:
+        df['Comment'] = df['Comment'].apply(scrub_words)
+        df['Prediction'] = df['Prediction'].apply(scrub_words)
+
     df['Comment'] = df['Comment'].str.lower()
    # df['Comment'] = df['Comment'].apply(cleanSpecialCharacters)
     df['Prediction'] = df['Prediction'].astype(str) #make them as str
@@ -433,7 +451,7 @@ if __name__ == '__main__':
 
    # process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
     process_pandas2('./raw_data/alta/train_22.csv', is_train_file=True, save_folder='./data/alta2')
-    process_pandas2('./raw_data/books/books.csv', is_train_file=True, save_folder='./data/books')
+    process_pandas2('./raw_data/books/books.csv', is_train_file=True, save_folder='./data/books' , isClean=True)
    # process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
 
     # process_fsauor('./raw_data/fsauor2018/train.csv', save_path='./data/fsauor/train.csv')

@@ -241,12 +241,12 @@ def process_pandas2(file_path, is_train_file, save_folder):
 
             for token in tokens:
                 if token.is_punct is False:
-                    print("Current tOKEN",token.orth_)
+                    # print("Current tOKEN",token.orth_)
                     for truth in truths:
                         isFound = False
                         if(truth.orth_ == token.orth_): #if we have found a match
                             m = re.finditer(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
-                            print(truth.orth_)
+                            # print(truth.orth_)
                             mlength = re.findall(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
                             for indeks in m:
                                 if len(mlength) == 1:
@@ -313,12 +313,12 @@ def process_pandas2(file_path, is_train_file, save_folder):
                             #     isFound = True
                             #     break
                     if(isFound == False):
-                        print("CURRENT Token for FALSE",token.orth_)
+                        # print("CURRENT Token for FALSE",token.orth_)
                         sentScore = 0
                         m = re.finditer(r'\b'+ re.escape(token.orth_) +r'\b', row['Comment'], re.IGNORECASE)
                         mlength = re.findall(r'\b'+ re.escape(token.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
-                        print("all inside length is",mlength)
-                        print("length is",len(mlength))
+                        # print("all inside length is",mlength)
+                        # print("length is",len(mlength))
                         if(len(mlength)==0):
                             start_index = row['Comment'].find(token.orth_)
                             end_index = start_index + len(token.orth_)

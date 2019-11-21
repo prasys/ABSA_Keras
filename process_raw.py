@@ -169,6 +169,7 @@ def process_pandas(file_path, is_train_file, save_folder):
                 sentScore = 1 # there is only 1 target 
             for token in tokens:
                 m = re.search(r'\b'+ re.escape(token) +r'\b', row['Comment'], re.IGNORECASE)
+
                 if m:
                     start_index = m.start()
                 else:
@@ -243,42 +244,111 @@ def process_pandas2(file_path, is_train_file, save_folder):
                     for truth in truths:
                         isFound = False
                         if(truth.orth_ == token.orth_): #if we have found a match
-                            m = re.search(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # NEED TO RE-WRITE PROPERLY
-                            if m:
-                                start_index = m.start()
-                                end_index = start_index + len(truth.orth_)
-                                sentScore = 1
-                                text.append(row['Comment'])
-                                target.append(truth.orth_)
-                                leftIndex.append(start_index)
-                                rightIndex.append(end_index)
-                                sentiment.append(sentScore)
-                                isFound = True
+                            m = re.finditer(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
+                            print(truth.orth_)
+                            mlength = re.findall(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
+                            for indeks in m:
+                                if len(mlength) == 1:
+                                    start_index = indeks.start()
+                                    end_index = start_index + len(truth.orth_)
+                                    sentScore = 1
+                                    text.append(row['Comment'])
+                                    target.append(truth.orth_)
+                                    leftIndex.append(start_index)
+                                    rightIndex.append(end_index)
+                                    sentiment.append(sentScore)
+                                    isFound = True
+                                    break
+                                else:
+                                    peekValue = indeks.start() + len(token)
+                                    endValue = peekValue + 1
+                                    if  " " in row['Comment'][peekValue:endValue]:
+                                        start_index = indeks.start()
+                                        end_index = start_index + len(truth.orth_)
+                                        sentScore = 1
+                                        text.append(row['Comment'])
+                                        target.append(truth.orth_)
+                                        leftIndex.append(start_index)
+                                        rightIndex.append(end_index)
+                                        sentiment.append(sentScore)
+                                        isFound = True
+                                        break
                                 break
-                            else:
-                                start_index = row['Comment'].find(truth.orth_)
-                                end_index = start_index + len(truth.orth_)
-                                text.append(row['Comment'])
-                                target.append(truth.orth_)
-                                sentScore = 1
-                                leftIndex.append(start_index)
-                                rightIndex.append(end_index)
-                                sentiment.append(sentScore)
-                                isFound = True
-                                break
+
+                                # peekValue = indeks.start() + len(token)
+                                # endValue = peekValue + 1
+                                # if  " " in row['Comment'][peekValue:endValue]:
+                                #     print("FOUND EOS")
+                                #     start_index = indeks.start()
+                                #     end_index = start_index + len(truth.orth_)
+                                #     sentScore = 1
+                                #     text.append(row['Comment'])
+                                #     target.append(truth.orth_)
+                                #     leftIndex.append(start_index)
+                                #     rightIndex.append(end_index)
+                                #     sentiment.append(sentScore)
+                                #     isFound = True
+                                    
+                            # if m:
+                            #     start_index = m.start()
+                            #     end_index = start_index + len(truth.orth_)
+                            #     sentScore = 1
+                            #     text.append(row['Comment'])
+                            #     target.append(truth.orth_)
+                            #     leftIndex.append(start_index)
+                            #     rightIndex.append(end_index)
+                            #     sentiment.append(sentScore)
+                            #     isFound = True
+                            #     break
+                            # else:
+                            #     start_index = row['Comment'].find(truth.orth_)
+                            #     end_index = start_index + len(truth.orth_)
+                            #     text.append(row['Comment'])
+                            #     target.append(truth.orth_)
+                            #     sentScore = 1
+                            #     leftIndex.append(start_index)
+                            #     rightIndex.append(end_index)
+                            #     sentiment.append(sentScore)
+                            #     isFound = True
+                            #     break
                     if(isFound == False):
-                        m = re.search(r'\b'+ re.escape(token.orth_) +r'\b', row['Comment'], re.IGNORECASE)
-                        if m:
-                            start_index = m.start()
-                        else:
-                            start_index = row['Comment'].find(token.orth_)
-                        end_index = start_index + len(token.orth_)
-                        text.append(row['Comment'])
-                        target.append(token)
-                        leftIndex.append(start_index)
-                        rightIndex.append(end_index)
-                        sentScore = 0
-                        sentiment.append(sentScore)
+                        m = re.finditer(r'\b'+ re.escape(token.orth_) +r'\b', row['Comment'], re.IGNORECASE)
+                        mlength = re.findall(r'\b'+ re.escape(token.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
+                        for indeks in m:
+                            if len(mlength) == 1:
+                                start_index = indeks.start()
+                                end_index = start_index + len(token.orth_)
+                                target.append(truth.orth_)
+                                text.append(row['Comment'])
+                                leftIndex.append(start_index)
+                                rightIndex.append(end_index)
+                                sentScore = 0
+                                sentiment.append(sentScore)
+                            else:
+                                peekValue = indeks.start() + len(token)
+                                endValue = peekValue + 1
+                                if  " " in row['Comment'][peekValue:endValue]:
+                                    start_index = indeks.start()
+                                    end_index = start_index + len(token.orth_)
+                                    target.append(token.orth_)
+                                    text.append(row['Comment'])
+                                    leftIndex.append(start_index)
+                                    rightIndex.append(end_index)
+                                    sentScore = 0
+                                    sentiment.append(sentScore)
+
+                            # peekValue = indeks.start() + len(token)
+                            # endValue = peekValue + 1
+                            # if  " " in row['Comment'][peekValue:endValue]:
+                            #     print("FOUND EOS")
+                            #     start_index = indeks.start()
+                            #     end_index = start_index + len(token.orth_)
+                            #     target.append(truth.orth_)
+                            #     text.append(row['Comment'])
+                            #     leftIndex.append(start_index)
+                            #     rightIndex.append(end_index)
+                            #     sentScore = 0
+                            #     sentiment.append(sentScore)
     dfObj['content'] =text
     dfObj['aspect'] =target
     dfObj['sentiment'] = sentiment
@@ -350,7 +420,7 @@ if __name__ == '__main__':
    #             save_folder='./data/restaurant')
 
    # process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
-    process_pandas2('./raw_data/alta/train_22.csv', is_train_file=True, save_folder='./data/alta2')
+    process_pandas2('./raw_data/alta/train_test.csv', is_train_file=True, save_folder='./data/alta2')
    # process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
 
     # process_fsauor('./raw_data/fsauor2018/train.csv', save_path='./data/fsauor/train.csv')

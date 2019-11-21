@@ -321,7 +321,6 @@ def process_pandas2(file_path, is_train_file, save_folder):
                         print("length is",len(mlength))
                         if(len(mlength)==0):
                             start_index = row['Comment'].find(token.orth_)
-                            print("no length index is",start_index)
                             end_index = start_index + len(token.orth_)
                             target.append(token.orth_)
                             text.append(row['Comment'])
@@ -340,7 +339,7 @@ def process_pandas2(file_path, is_train_file, save_folder):
                             else:
                                 peekValue = indeks.start() + len(token.orth_)
                                 endValue = peekValue + 1
-                                if  " " in row['Comment'][peekValue:endValue]:
+                                if  " " in row['Comment'][peekValue:endValue] and " " in row['Comment'][indeks.start()-1:indeks.start()]:
                                     start_index = indeks.start()
                                     end_index = start_index + len(token.orth_)
                                     target.append(token.orth_)

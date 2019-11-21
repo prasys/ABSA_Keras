@@ -23,6 +23,7 @@ from gensim.models import KeyedVectors
 from config import Config
 from utils import pickle_dump
 import spacy
+from spacy.tokenizer import Tokenizer
 from pandarallel import pandarallel #make things go fasterrr
 CORES = 32
 

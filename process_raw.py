@@ -433,6 +433,7 @@ if __name__ == '__main__':
 
    # process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
     process_pandas2('./raw_data/alta/train_22.csv', is_train_file=True, save_folder='./data/alta2')
+    process_pandas2('./raw_data/books/books.csv', is_train_file=True, save_folder='./data/books')
    # process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
 
     # process_fsauor('./raw_data/fsauor2018/train.csv', save_path='./data/fsauor/train.csv')

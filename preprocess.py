@@ -482,6 +482,7 @@ if __name__ == '__main__':
     config = Config()
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     nlp = spacy.load("en_core_web_sm")
+    nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
     pandarallel.initialize(nb_workers=CORES)
 
     #pre_process('./data/laptop/term', lambda x: nltk.word_tokenize(x), True)

@@ -17,6 +17,7 @@
 import pickle
 import numpy as np
 from sklearn.metrics import f1_score, accuracy_score
+from sklearn.metrics import classification_report, confusion_matrix
 
 
 def pickle_load(file_path):
@@ -43,3 +44,34 @@ def get_score_senti(y_true, y_pred):
     print('acc:', acc)
     print('macro_f1:', f1)
     return acc, f1
+
+def get_confusion_matrix(y_true,y_pred):
+
+    y_true = np.argmax(y_true, axis=-1)
+    y_pred = np.argmax(y_pred, axis=-1)
+    tn, fp , fn , tp = confusion_matrix(y_pred, y_true).ravel()
+    print('tp:',tp)
+    print('fp:',fp)
+    print('fn:',fn)
+    print('tn:',tn)
+    return tp,fp,fn,tn
+
+
+
+
+
+
+
+
+    """
+    return score for predictions made by sentiment analysis model
+    :param y_true: array shaped [batch_size, 3]
+    :param y_pred: array shaped [batch_size, 3]
+    :return:
+    """
+
+
+
+
+
+

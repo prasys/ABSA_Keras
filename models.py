@@ -29,7 +29,7 @@ import keras.backend as K
 import tensorflow as tf
 
 from custom_layers import Attention, RecurrentAttention, InteractiveAttention, ContentAttention, ELMoEmbedding
-from utils import get_score_senti
+from utils import get_score_senti , get_confusion_matrix
 from data_loader import load_idx2token
 
 
@@ -242,6 +242,7 @@ class SentimentModel(object):
         label = self.prepare_label(label)
         prediction = self.model.predict(input_pad)
         get_score_senti(label, prediction)
+        get_confusion_matrix(label,prediction) #implemented cofusion matrix for it
 
     def predict(self, input_data):
         input_pad = self.prepare_input(input_data)

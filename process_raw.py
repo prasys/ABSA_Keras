@@ -241,6 +241,7 @@ def process_pandas2(file_path, is_train_file, save_folder):
 
             for token in tokens:
                 if token.is_punct is False:
+                    print("Current tOKEN",token.orth_)
                     for truth in truths:
                         isFound = False
                         if(truth.orth_ == token.orth_): #if we have found a match
@@ -260,7 +261,7 @@ def process_pandas2(file_path, is_train_file, save_folder):
                                     isFound = True
                                     break
                                 else:
-                                    peekValue = indeks.start() + len(token)
+                                    peekValue = indeks.start() + len(truth.orth_)
                                     endValue = peekValue + 1
                                     if  " " in row['Comment'][peekValue:endValue]:
                                         start_index = indeks.start()
@@ -312,20 +313,32 @@ def process_pandas2(file_path, is_train_file, save_folder):
                             #     isFound = True
                             #     break
                     if(isFound == False):
+                        print("CURRENT Token for FALSE",token.orth_)
+                        sentScore = 0
                         m = re.finditer(r'\b'+ re.escape(token.orth_) +r'\b', row['Comment'], re.IGNORECASE)
                         mlength = re.findall(r'\b'+ re.escape(token.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
+                        print("all inside length is",mlength)
+                        print("length is",len(mlength))
+                        if(len(mlength)==0):
+                            start_index = row['Comment'].find(token.orth_)
+                            print("no length index is",start_index)
+                            end_index = start_index + len(token.orth_)
+                            target.append(token.orth_)
+                            text.append(row['Comment'])
+                            leftIndex.append(start_index)
+                            rightIndex.append(end_index)
+                            sentiment.append(sentScore)
                         for indeks in m:
                             if len(mlength) == 1:
                                 start_index = indeks.start()
                                 end_index = start_index + len(token.orth_)
-                                target.append(truth.orth_)
+                                target.append(token.orth_)
                                 text.append(row['Comment'])
                                 leftIndex.append(start_index)
                                 rightIndex.append(end_index)
-                                sentScore = 0
                                 sentiment.append(sentScore)
                             else:
-                                peekValue = indeks.start() + len(token)
+                                peekValue = indeks.start() + len(token.orth_)
                                 endValue = peekValue + 1
                                 if  " " in row['Comment'][peekValue:endValue]:
                                     start_index = indeks.start()
@@ -334,7 +347,6 @@ def process_pandas2(file_path, is_train_file, save_folder):
                                     text.append(row['Comment'])
                                     leftIndex.append(start_index)
                                     rightIndex.append(end_index)
-                                    sentScore = 0
                                     sentiment.append(sentScore)
 
                             # peekValue = indeks.start() + len(token)
@@ -354,7 +366,8 @@ def process_pandas2(file_path, is_train_file, save_folder):
     dfObj['sentiment'] = sentiment
     dfObj['from'] =leftIndex
     dfObj['to'] = rightIndex
-    #dfObj.to_csv(os.path.join(save_folder, 'full_split.csv'), index=None)
+    dfObj = dfObj.drop_duplicates(subset=['from','to'])
+    dfObj.to_csv(os.path.join(save_folder, 'full_split.csv'), index=None)
     X_train, X_test = train_test_split(dfObj,test_size=0.25, random_state=10000)
     xTest,xValidate = train_test_split(X_test,test_size=0.01, random_state=10000)
 

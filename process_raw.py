@@ -41,8 +41,8 @@ def scrub_words(text):
     #remove non-ascii and digits
     text=re.sub("(\\W|\\d)"," ",text)
     
-    #remove whitespace
-    #text=text.strip()
+    remove whitespace
+    text=text.strip()
     return text
 
 
@@ -228,6 +228,7 @@ def process_pandas(file_path, is_train_file, save_folder):
 def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
     df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
     if isClean is True:
+        print("Applying scrub cleaner")
         df['Comment'] = df['Comment'].apply(scrub_words)
         df['Prediction'] = df['Prediction'].apply(scrub_words)
 

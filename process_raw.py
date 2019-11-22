@@ -41,7 +41,6 @@ def scrub_words(text):
     #remove non-ascii and digits
     text=re.sub("(\\W|\\d)"," ",text)
     
-    remove whitespace
     text=text.strip()
     return text
 

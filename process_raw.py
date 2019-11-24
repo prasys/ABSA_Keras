@@ -225,7 +225,12 @@ def process_pandas(file_path, is_train_file, save_folder):
 
 
 def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
-    df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
+    if ('csv' in file_path):
+        print("found CSV")
+        df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
+    elif ('xlsx' in file_path):
+        print("found XLSX")
+        df = pd.read_excel(file_path, sheet_name='Sheet1')
     if isClean is True:
         print("Applying scrub cleaner")
         df['Comment'] = df['Comment'].apply(scrub_words)
@@ -451,7 +456,7 @@ if __name__ == '__main__':
 
    # process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
  #   process_pandas2('./raw_data/alta/train_22.csv', is_train_file=True, save_folder='./data/alta2')
-    process_pandas2('./raw_data/books/books2.csv', is_train_file=True, save_folder='./data/books' , isClean=True)
+    process_pandas2('./raw_data/books/book_snippet.xlsx', is_train_file=True, save_folder='./data/books' , isClean=True)
    # process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
 
     # process_fsauor('./raw_data/fsauor2018/train.csv', save_path='./data/fsauor/train.csv')

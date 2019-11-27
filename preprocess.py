@@ -62,6 +62,8 @@ def spacyTokenizer(text):
         if token.is_punct is False:
             if token.orth_ == 've': #special handling case
                 tokens.append("'ve")
+            elif token.orth ==". "
+                tokens.append(" ")
             else:
                 tokens.append(token.orth_)
     return tokens

@@ -391,7 +391,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
     dfObj = dfObj.drop_duplicates(subset=['from','to'])
     dfObj.to_csv(os.path.join(save_folder, 'full_split.csv'), index=None)
     X_train, X_test = train_test_split(dfObj,test_size=0.25, random_state=10000)
-    xTest,xValidate = train_test_split(X_test,test_size=0.01, random_state=10000)
+    xTest,xValidate = train_test_split(X_test,test_size=0.00, random_state=10000)
 
     X_train.to_csv(os.path.join(save_folder, 'train.csv'), index=None)
     xTest.to_csv(os.path.join(save_folder, 'test.csv'), index=None)

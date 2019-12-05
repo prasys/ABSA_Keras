@@ -495,28 +495,24 @@ def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
     nlp = spacy.load("en_core_web_sm")
     nlp.tokenizer = Tokenizer(nlp.vocab)
 
-    predict_data = pd.read_csv(os.path.join(file_folder, file_name), header=0, index_col=None)
-    predict_data['content'] = predict_data['content'].astype(str)
-    predict_data['aspect'] = predict_data['aspect'].astype(str)
-    predict_data['word_list'] = predict_data['content'].parallel_apply(word_cut_func)
-    predict_data['char_list'] = predict_data['content'].parallel_apply(lambda x: list(x))
-    predict_data['aspect_word_list'] = predict_data['aspect'].parallel_apply(word_cut_func)
-    predict_data['aspect_char_list'] = predict_data['aspect'].parallel_apply(lambda x: list(x))
-    print('size of training set:', len(train_data))
-    print('size of valid set:', len(valid_data))
-    print('size of test set:', len(test_data))
+       print('preprocessing: ', file_folder)
+    train_data = pd.read_csv(os.path.join(file_folder, 'train.csv'), header=0, index_col=None)
+    train_data['content'] = train_data['content'].astype(str)
+    train_data['aspect'] = train_data['aspect'].astype(str)
+    train_data['word_list'] = train_data['content'].parallel_apply(word_cut_func)
+    train_data['char_list'] = train_data['content'].parallel_apply(lambda x: list(x))
+    train_data['aspect_word_list'] = train_data['aspect'].parallel_apply(word_cut_func)
+    train_data['aspect_char_list'] = train_data['aspect'].parallel_apply(lambda x: list(x))
+    print("OUTPUT IS READY!")
+    train_data.to_csv('output_train.csv')
 
-    word_corpus = np.concatenate((train_data['word_list'].values)).tolist()
-    char_corpus = np.concatenate((train_data['char_list'].values, valid_data['char_list'].values,
-                                  test_data['char_list'].values)).tolist()
-    aspect_corpus = np.concatenate((train_data['aspect'].values, valid_data['aspect'].values,
-                                    test_data['aspect'].values)).tolist()
-    aspect_text_word_corpus = np.concatenate((train_data['aspect_word_list'].values,
-                                              valid_data['aspect_word_list'].values,
-                                              test_data['aspect_word_list'].values)).tolist()
-    aspect_text_char_corpus = np.concatenate((train_data['aspect_char_list'].values,
-                                              valid_data['aspect_char_list'].values,
-                                              test_data['aspect_char_list'].values)).tolist()
+    print('size of training set:', len(train_data))
+
+    word_corpus = train_data['word_list'].values.tolist()
+    char_corpus = train_data['char_list'].values.tolist()
+    aspect_corpus = train_data['aspect'].values.tolist()
+    aspect_text_word_corpus = train_data['aspect_word_list'].values.tolist()
+    aspect_text_char_corpus = train_data['aspect_char_list'].values.tolist()
 
     # build vocabulary
     print('building vocabulary...')
@@ -591,31 +587,14 @@ def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
         lambda x: [word_vocab.get(word, len(word_vocab)+1) for word in x]).values.tolist()
     train_char_input = train_data['char_list'].parallel_apply(
         lambda x: [char_vocab.get(char, len(char_vocab)+1) for char in x]).values.tolist()
-    valid_word_input = valid_data['word_list'].parallel_apply(
-        lambda x: [word_vocab.get(word, len(word_vocab)+1) for word in x]).values.tolist()
-    valid_char_input = valid_data['char_list'].parallel_apply(
-        lambda x: [char_vocab.get(char, len(char_vocab)+1) for char in x]).values.tolist()
-    test_word_input = test_data['word_list'].parallel_apply(
-        lambda x: [word_vocab.get(word, len(word_vocab)+1) for word in x]).values.tolist()
-    test_char_input = test_data['char_list'].parallel_apply(
-        lambda x: [char_vocab.get(char, len(char_vocab)+1) for char in x]).values.tolist()
     pickle_dump(train_word_input, os.path.join(file_folder, 'train_word_input.pkl'))
     pickle_dump(train_char_input, os.path.join(file_folder, 'train_char_input.pkl'))
-    pickle_dump(valid_word_input, os.path.join(file_folder, 'valid_word_input.pkl'))
-    pickle_dump(valid_char_input, os.path.join(file_folder, 'valid_char_input.pkl'))
     print('finished preparing text input!')
-    print('length analysis of text word input:')
-    analyze_len_distribution(train_word_input, valid_word_input, test_word_input)
-    print('length analysis of text char input')
-    analyze_len_distribution(train_char_input, valid_char_input, test_char_input)
+
 
     print('preparing aspect input...')
     train_aspect_input = train_data['aspect'].parallel_apply(lambda x: [aspect_vocab[x]]).values.tolist()
-    valid_aspect_input = valid_data['aspect'].parallel_apply(lambda x: [aspect_vocab[x]]).values.tolist()
-    test_aspect_input = test_data['aspect'].parallel_apply(lambda x: [aspect_vocab[x]]).values.tolist()
     pickle_dump(train_aspect_input, os.path.join(file_folder, 'train_aspect_input.pkl'))
-    pickle_dump(valid_aspect_input, os.path.join(file_folder, 'valid_aspect_input.pkl'))
-    pickle_dump(test_aspect_input, os.path.join(file_folder, 'test_aspect_input.pkl'))
     print('finished preparing aspect input!')
 
     print('preparing aspect text input...')
@@ -623,22 +602,9 @@ def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
         lambda x: [aspect_text_word_vocab.get(word, len(aspect_text_word_vocab) + 1) for word in x]).values.tolist()
     train_aspect_text_char_input = train_data['aspect_char_list'].parallel_apply(
         lambda x: [aspect_text_char_vocab.get(char, len(aspect_text_char_vocab) + 1) for char in x]).values.tolist()
-    valid_aspect_text_word_input = valid_data['aspect_word_list'].parallel_apply(
-        lambda x: [aspect_text_word_vocab.get(word, len(aspect_text_word_vocab) + 1) for word in x]).values.tolist()
-    valid_aspect_text_char_input = valid_data['aspect_char_list'].parallel_apply(
-        lambda x: [aspect_text_char_vocab.get(char, len(aspect_text_char_vocab) + 1) for char in x]).values.tolist()
-    test_aspect_text_word_input = test_data['aspect_word_list'].parallel_apply(
-        lambda x: [aspect_text_word_vocab.get(word, len(aspect_text_word_vocab) + 1) for word in x]).values.tolist()
-    test_aspect_text_char_input = test_data['aspect_char_list'].parallel_apply(
-        lambda x: [aspect_text_char_vocab.get(char, len(aspect_text_char_vocab) + 1) for char in x]).values.tolist()
-    pickle_dump(train_aspect_text_word_input, os.path.join(file_folder, 'predict_word_aspect_input.pkl'))
-    pickle_dump(train_aspect_text_char_input, os.path.join(file_folder, 'predict_char_aspect_input.pkl'))
-
+    pickle_dump(train_aspect_text_word_input, os.path.join(file_folder, 'train_word_aspect_input.pkl'))
+    pickle_dump(train_aspect_text_char_input, os.path.join(file_folder, 'train_char_aspect_input.pkl'))
     print('finished preparing aspect text input!')
-    print('length analysis of aspect text word input:')
-    analyze_len_distribution(train_aspect_text_word_input, valid_aspect_text_word_input, test_aspect_text_word_input)
-    print('length analysis of aspect text char input')
-    analyze_len_distribution(train_aspect_text_char_input, valid_aspect_text_char_input, test_aspect_text_char_input)
 
     if 'from' in train_data.columns:
         print('preparing left text input, right text input & position input...')
@@ -648,18 +614,26 @@ def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
                                                                                                          word_vocab,
                                                                                                          char_vocab,
                                                                                                          word_cut_func)
-        pickle_dump(train_word_input_l, os.path.join(file_folder, 'predict_word_input_l.pkl'))
-        pickle_dump(train_word_input_r, os.path.join(file_folder, 'predict_word_input_r.pkl'))
-        pickle_dump(train_word_input_r_with_pad, os.path.join(file_folder, 'predict_word_input_r_with_pad.pkl'))
-        pickle_dump(train_word_mask, os.path.join(file_folder, 'predict_word_mask.pkl'))
-        pickle_dump(train_word_pos_input, os.path.join(file_folder, 'predict_word_pos_input.pkl'))
-        pickle_dump(train_word_offset_input, os.path.join(file_folder, 'predict_word_offset_input.pkl'))
-        pickle_dump(train_char_input_l, os.path.join(file_folder, 'predict_char_input_l.pkl'))
-        pickle_dump(train_char_input_r, os.path.join(file_folder, 'predict_char_input_r.pkl'))
-        pickle_dump(train_char_input_r_with_pad, os.path.join(file_folder, 'predict_char_input_r_with_pad.pkl'))
-        pickle_dump(train_char_mask, os.path.join(file_folder, 'predict_char_mask.pkl'))
-        pickle_dump(train_char_pos_input, os.path.join(file_folder, 'predict_char_pos_input.pkl'))
-        pickle_dump(train_char_offset_input, os.path.join(file_folder, 'predict_char_offset_input.pkl'))
+        pickle_dump(train_word_input_l, os.path.join(file_folder, 'train_word_input_l.pkl'))
+        pickle_dump(train_word_input_r, os.path.join(file_folder, 'train_word_input_r.pkl'))
+        pickle_dump(train_word_input_r_with_pad, os.path.join(file_folder, 'train_word_input_r_with_pad.pkl'))
+        pickle_dump(train_word_mask, os.path.join(file_folder, 'train_word_mask.pkl'))
+        pickle_dump(train_word_pos_input, os.path.join(file_folder, 'train_word_pos_input.pkl'))
+        pickle_dump(train_word_offset_input, os.path.join(file_folder, 'train_word_offset_input.pkl'))
+        pickle_dump(train_char_input_l, os.path.join(file_folder, 'train_char_input_l.pkl'))
+        pickle_dump(train_char_input_r, os.path.join(file_folder, 'train_char_input_r.pkl'))
+        pickle_dump(train_char_input_r_with_pad, os.path.join(file_folder, 'train_char_input_r_with_pad.pkl'))
+        pickle_dump(train_char_mask, os.path.join(file_folder, 'train_char_mask.pkl'))
+        pickle_dump(train_char_pos_input, os.path.join(file_folder, 'train_char_pos_input.pkl'))
+        pickle_dump(train_char_offset_input, os.path.join(file_folder, 'train_char_offset_input.pkl'))
+
+
+    # prepare output
+    print('preparing output....')
+    pickle_dump(train_data['sentiment'].values.tolist(), os.path.join(file_folder, 'train_label.pkl'))
+    if 'sentiment' in test_data.columns:
+        pickle_dump(test_data['sentiment'].values.tolist(), os.path.join(file_folder, 'test_label.pkl'))
+    print('finished preparing output!')
 
 
 

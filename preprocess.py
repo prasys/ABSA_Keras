@@ -481,10 +481,10 @@ def pre_process(file_folder, word_cut_func, is_en):
         analyze_class_distribution(valid_data['sentiment'].values.tolist())
 
 
-def process_predict(file_folder, word_cut_func, is_en):
+def process_predict(file_folder, word_cut_func, is_en, file_name='translate.csv'):
 	pandarallel.initialize(nb_workers=CORES, verbose=0)
     print('preprocessing: ', file_folder)
-    predict_data = pd.read_csv(os.path.join(file_folder, 'text.csv'), header=0, index_col=None)
+    predict_data = pd.read_csv(os.path.join(file_folder, file_name), header=0, index_col=None)
     predict_data['content'] = predict_data['content'].astype(str)
     predict_data['aspect'] = predict_data['aspect'].astype(str)
     predict_data['word_list'] = predict_data['content'].parallel_apply(word_cut_func)

@@ -486,7 +486,7 @@ def pre_process(file_folder, word_cut_func, is_en):
         analyze_class_distribution(valid_data['sentiment'].values.tolist())
 
 
-def process_predict(file_folder, word_cut_func, is_en, file_name='translate.csv'):
+def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     pandarallel.initialize(nb_workers=CORES, verbose=0)
     print('preprocessing: ', file_folder)

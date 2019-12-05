@@ -494,7 +494,7 @@ def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
     print('preprocessing: ', file_folder)
     nlp = spacy.load("en_core_web_sm")
     nlp.tokenizer = Tokenizer(nlp.vocab)
-    train_data = pd.read_csv(os.path.join(file_folder, 'train.csv'), header=0, index_col=None)
+    train_data = pd.read_csv(os.path.join(file_folder, file_name), header=0, index_col=None)
     train_data['content'] = train_data['content'].astype(str)
     train_data['aspect'] = train_data['aspect'].astype(str)
     train_data['word_list'] = train_data['content'].parallel_apply(word_cut_func)

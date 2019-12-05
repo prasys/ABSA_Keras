@@ -27,6 +27,11 @@ from spacy.tokenizer import Tokenizer
 
 RANDOMSTATE = 21
 
+def initNLP()
+    nlp = spacy.load("en_core_web_sm")
+    nlp.tokenizer = Tokenizer(nlp.vocab)
+
+
 
 def cleanSpecialCharacters(text):
     return (re.sub( '[^a-z0-9\']', ' ', text))
@@ -225,6 +230,7 @@ def process_pandas(file_path, is_train_file, save_folder):
 
 
 def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
+    initNLP()
     if ('csv' in file_path):
         print("found CSV")
         df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
@@ -443,8 +449,6 @@ def process_bdci(file_path, is_train_file, save_folder):
 
 
 if __name__ == '__main__':
-    nlp = spacy.load("en_core_web_sm")
-    nlp.tokenizer = Tokenizer(nlp.vocab)
    # process_xml('./raw_data/semeval14_laptop/Laptop_Train_v2.xml', is_train_file=True, save_folder='./data/laptop')
    # process_xml('./raw_data/semeval14_laptop/Laptops_Test_Gold.xml', is_train_file=False, save_folder='./data/laptop')
 

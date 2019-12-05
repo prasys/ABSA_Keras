@@ -27,7 +27,7 @@ from spacy.tokenizer import Tokenizer
 
 RANDOMSTATE = 21
 
-def initNLP()
+def initNLP():
     nlp = spacy.load("en_core_web_sm")
     nlp.tokenizer = Tokenizer(nlp.vocab)
 

@@ -109,7 +109,7 @@ def build_glove_embedding(vocab, word_vectors, embed_dim):
             emb_matrix[i, :] = np.random.uniform(-0.1, 0.1, embed_dim)
         else:
             emb_matrix[i, :] = word_vectors[word]
-    print('glove embedding out of vocabulary：', count)
+   # print('glove embedding out of vocabulary：', count)
     return emb_matrix
 
 
@@ -123,7 +123,7 @@ def build_aspect_embedding(aspect_vocab, split_func, word_vocab, word_embed):
             aspect_embed[aspect_id] = avg_vector
         else:
             count += 1
-    print('aspect embedding out of vocabulary:', count)
+   # print('aspect embedding out of vocabulary:', count)
     return aspect_embed
 
 
@@ -136,7 +136,7 @@ def build_aspect_text_embedding(aspect_text_vocab, word_vocab, word_embed):
         else:
             count += 1
             aspect_text_embed[aspect_id] = np.random.uniform(-0.1, 0.1, word_embed.shape[1])
-    print('aspect text embedding out of vocabulary:', count)
+   # print('aspect text embedding out of vocabulary:', count)
     return aspect_text_embed
 
 

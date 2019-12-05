@@ -5,6 +5,8 @@ from data_loader import load_idx2token
 from models import SentimentModel
 import preprocess as prepro
 import process_raw as praw
+import spacy
+from spacy.tokenizer import Tokenizer
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 

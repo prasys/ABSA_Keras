@@ -95,7 +95,7 @@ def build_embedding(corpus, vocab, embedding_dim=300):
             emb[i, :] = np.random.uniform(-0.1, 0.1, embedding_dim)
         else:
             emb[i, :] = weights[d[w], :]
-    print('embedding out of vocabulary：', count)
+   # print('embedding out of vocabulary：', count)
     return emb
 
 

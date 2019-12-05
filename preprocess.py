@@ -490,6 +490,7 @@ def pre_process(file_folder, word_cut_func, is_en):
 
 def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
+    config = Config()
     pandarallel.initialize(nb_workers=CORES, verbose=0)
     print('preprocessing: ', file_folder)
     nlp = spacy.load("en_core_web_sm")

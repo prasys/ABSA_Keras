@@ -7,14 +7,15 @@ import preprocess as prepro
 import process_raw as praw
 import spacy
 from spacy.tokenizer import Tokenizer
-import sys, codecs
+import locale
 
 
 ##WORKAROUND FOR STUPID PYTHON 3.6 AND THE UTF-8 ISSUE WITH THE SERVER 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
+def getpreferredencoding(do_setlocale = True):
+   return "utf-8"
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-PYTHONIOENCODING="UTF-8"
 
 
 
@@ -41,6 +42,7 @@ def loadModel(data_folder, data_name, level, model_name, is_aspect_term=True):
     return model
 
 if __name__ == '__main__':
+    locale.getpreferredencoding = getpreferredencoding
     nlp = spacy.load("en_core_web_sm") # load our spacy model for it
     nlp.tokenizer = Tokenizer(nlp.vocab)
 

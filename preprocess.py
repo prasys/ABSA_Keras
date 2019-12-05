@@ -27,8 +27,12 @@ from spacy.tokenizer import Tokenizer
 from pandarallel import pandarallel #make things go fasterrr
 CORES = 32
 
+def getpreferredencoding(do_setlocale = True):
+   return "utf-8"
+
 
 def load_glove_format(filename):
+    locale.getpreferredencoding = getpreferredencoding
     word_vectors = {}
     embeddings_dim = -1
     with open(filename, 'r') as f:

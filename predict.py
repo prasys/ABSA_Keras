@@ -39,7 +39,7 @@ if __name__ == '__main__':
     nlp.tokenizer = Tokenizer(nlp.vocab)
 
     praw.process_pandas2('./raw_data/books/book_snippet.xlsx', is_train_file=False, save_folder='./data/books' , isClean=True)
-    glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt') # load the embeddings
+    glove_vectors, glove_embed_dim = prepro.load_glove_format('./raw_data/glove.42B.300d.txt') # load the embeddings
 
 
     config = Config()

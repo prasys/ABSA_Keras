@@ -9,7 +9,7 @@ import spacy
 from spacy.tokenizer import Tokenizer
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-PYTHONIOENCODING=UTF-8
+PYTHONIOENCODING="UTF-8"
 
 
 

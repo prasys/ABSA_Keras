@@ -487,8 +487,12 @@ def pre_process(file_folder, word_cut_func, is_en):
 
 
 def process_predict(file_folder, word_cut_func, is_en, file_name='translate.csv'):
+    glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     pandarallel.initialize(nb_workers=CORES, verbose=0)
     print('preprocessing: ', file_folder)
+    nlp = spacy.load("en_core_web_sm")
+    nlp.tokenizer = Tokenizer(nlp.vocab)
+
     predict_data = pd.read_csv(os.path.join(file_folder, file_name), header=0, index_col=None)
     predict_data['content'] = predict_data['content'].astype(str)
     predict_data['aspect'] = predict_data['aspect'].astype(str)

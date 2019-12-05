@@ -11,7 +11,6 @@ import locale
 
 
 ##WORKAROUND FOR STUPID PYTHON 3.6 AND THE UTF-8 ISSUE WITH THE SERVER 
-sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
 def getpreferredencoding(do_setlocale = True):
    return "utf-8"
 

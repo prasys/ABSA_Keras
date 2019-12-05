@@ -1,16 +1,17 @@
 import os
 import time
 from config import Config
-from data_loader
+from data_loader import load_idx2token
 from models import SentimentModel
 import preprocess as prepro
+import process_raw as praw
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
 
 def loadModel(data_folder, data_name, level, model_name, is_aspect_term=True):
-	config.data_folder = data_folder
+    config.data_folder = data_folder
     config.data_name = data_name
     if not os.path.exists(os.path.join(config.checkpoint_dir, data_folder)):
         os.makedirs(os.path.join(config.checkpoint_dir, data_folder))
@@ -34,7 +35,10 @@ def loadModel(data_folder, data_name, level, model_name, is_aspect_term=True):
 if __name__ == '__main__':
     nlp = spacy.load("en_core_web_sm") # load our spacy model for it
     nlp.tokenizer = Tokenizer(nlp.vocab)
-    glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
 
-	config = Config()
-	model = loadModel('books', 'laptop', 'word', 'td_lstm') #pattern for our prediction to load our model
+    praw.process_pandas2('./raw_data/books/book_snippet.xlsx', is_train_file=True, save_folder='./data/books' , isClean=True)
+    glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt') # load the embeddings
+
+
+    config = Config()
+	#model = loadModel('books', 'laptop', 'word', 'td_lstm') #pattern for our prediction to load our model

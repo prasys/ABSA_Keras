@@ -227,7 +227,7 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
 
 
 def pre_process(file_folder, word_cut_func, is_en):
-	pandarallel.initialize(nb_workers=CORES, verbose=0)
+    pandarallel.initialize(nb_workers=CORES, verbose=0)
     print('preprocessing: ', file_folder)
     train_data = pd.read_csv(os.path.join(file_folder, 'train.csv'), header=0, index_col=None)
     train_data['content'] = train_data['content'].astype(str)
@@ -482,7 +482,7 @@ def pre_process(file_folder, word_cut_func, is_en):
 
 
 def process_predict(file_folder, word_cut_func, is_en, file_name='translate.csv'):
-	pandarallel.initialize(nb_workers=CORES, verbose=0)
+    pandarallel.initialize(nb_workers=CORES, verbose=0)
     print('preprocessing: ', file_folder)
     predict_data = pd.read_csv(os.path.join(file_folder, file_name), header=0, index_col=None)
     predict_data['content'] = predict_data['content'].astype(str)

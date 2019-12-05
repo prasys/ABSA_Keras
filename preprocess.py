@@ -33,10 +33,10 @@ def getpreferredencoding(do_setlocale = True):
 
 
 def load_glove_format(filename):
-    locale.getpreferredencoding = getpreferredencoding
+    # locale.getpreferredencoding = getpreferredencoding
     word_vectors = {}
     embeddings_dim = -1
-    with open(filename, 'r') as f:
+    with open(filename, 'r',encoding="utf-8") as f:
         for line in f:
             line = line.strip().split()
             word = line[0]

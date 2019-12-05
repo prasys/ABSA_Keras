@@ -7,6 +7,11 @@ import preprocess as prepro
 import process_raw as praw
 import spacy
 from spacy.tokenizer import Tokenizer
+import sys, codecs
+
+
+##WORKAROUND FOR STUPID PYTHON 3.6 AND THE UTF-8 ISSUE WITH THE SERVER 
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 PYTHONIOENCODING="UTF-8"

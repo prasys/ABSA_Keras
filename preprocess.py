@@ -227,6 +227,7 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
 
 
 def pre_process(file_folder, word_cut_func, is_en):
+	pandarallel.initialize(nb_workers=CORES, verbose=0)
     print('preprocessing: ', file_folder)
     train_data = pd.read_csv(os.path.join(file_folder, 'train.csv'), header=0, index_col=None)
     train_data['content'] = train_data['content'].astype(str)
@@ -481,8 +482,9 @@ def pre_process(file_folder, word_cut_func, is_en):
 
 
 def process_predict(file_folder, word_cut_func, is_en):
+	pandarallel.initialize(nb_workers=CORES, verbose=0)
     print('preprocessing: ', file_folder)
-    predict_data = pd.read_csv(os.path.join(file_folder, 'train.csv'), header=0, index_col=None)
+    predict_data = pd.read_csv(os.path.join(file_folder, 'text.csv'), header=0, index_col=None)
     predict_data['content'] = predict_data['content'].astype(str)
     predict_data['aspect'] = predict_data['aspect'].astype(str)
     predict_data['word_list'] = predict_data['content'].parallel_apply(word_cut_func)
@@ -590,8 +592,6 @@ def process_predict(file_folder, word_cut_func, is_en):
     pickle_dump(train_char_input, os.path.join(file_folder, 'train_char_input.pkl'))
     pickle_dump(valid_word_input, os.path.join(file_folder, 'valid_word_input.pkl'))
     pickle_dump(valid_char_input, os.path.join(file_folder, 'valid_char_input.pkl'))
-    pickle_dump(test_word_input, os.path.join(file_folder, 'test_word_input.pkl'))
-    pickle_dump(test_char_input, os.path.join(file_folder, 'test_char_input.pkl'))
     print('finished preparing text input!')
     print('length analysis of text word input:')
     analyze_len_distribution(train_word_input, valid_word_input, test_word_input)
@@ -669,7 +669,6 @@ if __name__ == '__main__':
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     nlp = spacy.load("en_core_web_sm")
     nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
-    pandarallel.initialize(nb_workers=CORES, verbose=0)
 
     #pre_process('./data/laptop/term', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/restaurant/term', lambda x: nltk.word_tokenize(x), True)

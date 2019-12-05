@@ -3,6 +3,7 @@ import time
 from config import Config
 from data_loader
 from models import SentimentModel
+import preprocess as prepro
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
@@ -31,5 +32,9 @@ def loadModel(data_folder, data_name, level, model_name, is_aspect_term=True):
     return model
 
 if __name__ == '__main__':
+    nlp = spacy.load("en_core_web_sm") # load our spacy model for it
+    nlp.tokenizer = Tokenizer(nlp.vocab)
+    glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
+
 	config = Config()
 	model = loadModel('books', 'laptop', 'word', 'td_lstm') #pattern for our prediction to load our model

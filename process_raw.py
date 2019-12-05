@@ -30,6 +30,7 @@ RANDOMSTATE = 21
 def initNLP():
     nlp = spacy.load("en_core_web_sm")
     nlp.tokenizer = Tokenizer(nlp.vocab)
+    return nlp
 
 
 
@@ -230,7 +231,7 @@ def process_pandas(file_path, is_train_file, save_folder):
 
 
 def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
-    initNLP()
+    nlp = initNLP()
     if ('csv' in file_path):
         print("found CSV")
         df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here

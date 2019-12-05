@@ -47,7 +47,7 @@ if __name__ == '__main__':
     #Checking if we can preprocess them properly and then load our model to check if it would work or not
     praw.process_pandas2('./raw_data/books/book_snippet.xlsx', is_train_file=False, save_folder='./data/output' , isClean=True) # this will process raw
     glove_vectors, glove_embed_dim = prepro.load_glove_format('./raw_data/glove.42B.300d.txt') # load the embeddings
-    prepro.pre_process('./data/output', lambda x: spacyTokenizer(x), True)
+    prepro.process_predict('./data/output', lambda x: spacyTokenizer(x), True)
 
 
 

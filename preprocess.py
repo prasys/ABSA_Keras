@@ -629,8 +629,6 @@ def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
     # prepare output
     print('preparing output....')
     pickle_dump(train_data['sentiment'].values.tolist(), os.path.join(file_folder, 'train_label.pkl'))
-    if 'sentiment' in test_data.columns:
-        pickle_dump(test_data['sentiment'].values.tolist(), os.path.join(file_folder, 'test_label.pkl'))
     print('finished preparing output!')
 
 

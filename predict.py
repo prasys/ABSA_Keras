@@ -3,6 +3,7 @@ import time
 from config import Config
 from data_loader import load_idx2token
 from models import SentimentModel
+import models
 import preprocess as prepro
 import process_raw as praw
 import spacy
@@ -45,12 +46,27 @@ if __name__ == '__main__':
     nlp = spacy.load("en_core_web_sm") # load our spacy model for it
     nlp.tokenizer = Tokenizer(nlp.vocab)
     #Checking if we can preprocess them properly and then load our model to check if it would work or not
-    praw.process_pandas2('./raw_data/books/book_snippet.xlsx', is_train_file=False, save_folder='./data/output' , isClean=True) # this will process raw
+    praw.process_pandas2('./raw_data/alta/train_66.csv', is_train_file=False, save_folder='./data/output' , isClean=True) # this will process raw
     glove_vectors, glove_embed_dim = prepro.load_glove_format('./raw_data/glove.42B.300d.txt') # load the embeddings
-    prepro.process_predict('./data/output', lambda x: prepro.spacyTokenizer(x), True)
+    prepro.process_predict('./data/output', lambda x: prepro.spacyTokenizer(x), True) # this would do the pre_processing for the data to predict
+    config = Config() # load our config file
+    config.use_elmo = False
+    config.use_elmo_alone = False
+    config.elmo_trainable = False
+    config.word_embed_trainable = True
+    config.aspect_embed_trainable = True
+    model = loadModel('alta2', 'twitter', 'word', 'td_lstm') # pick when model to load and to do the test
+    test_input = load_input_data('data', 'test', level, config.use_text_input, config.use_text_input_l,
+                             config.use_text_input_r, config.use_text_input_r_with_pad, config.use_aspect_input,
+                             config.use_aspect_text_input, config.use_loc_input, config.use_offset_input,
+                             config.use_mask)
+    model.load()
+    model.predict(test_input)
 
 
 
 
-    config = Config()
+
+
+
 	#model = loadModel('books', 'laptop', 'word', 'td_lstm') #pattern for our prediction to load our model

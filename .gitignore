@@ -113,3 +113,4 @@ raw_data/glove.twitter.27B.25d.txt
 *.csv
 
 raw_data/.DS_Store
+.DS_Store

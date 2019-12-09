@@ -62,7 +62,7 @@ if __name__ == '__main__':
                              config.use_aspect_text_input, config.use_loc_input, config.use_offset_input,
                              config.use_mask)
     model.load()
-    model.predict(predict_input)
+    print(model.predict(predict_input))
 
 
 

@@ -57,7 +57,7 @@ if __name__ == '__main__':
     config.word_embed_trainable = True
     config.aspect_embed_trainable = True
     model = loadModel('alta2', 'twitter', 'word', 'td_lstm') # pick when model to load and to do the test
-    predict_input = load_input_data('data', 'train', config.level, config.use_text_input, config.use_text_input_l,
+    predict_input = load_input_data('output', 'train', config.level, config.use_text_input, config.use_text_input_l,
                              config.use_text_input_r, config.use_text_input_r_with_pad, config.use_aspect_input,
                              config.use_aspect_text_input, config.use_loc_input, config.use_offset_input,
                              config.use_mask)

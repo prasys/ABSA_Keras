@@ -47,7 +47,8 @@ def scrub_words(text):
     #remove non-ascii and digits
     text=re.sub("(\\W|\\d)"," ",text)
     
-    text=text.strip()
+    # remove the extra spaces that we have so that it is easier for our split :) Taken from https://stackoverflow.com/questions/2077897/substitute-multiple-whitespace-with-single-whitespace-in-python
+    text=re.sub(' +', ' ', text).strip()
     return text
 
 
@@ -378,18 +379,6 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
                                     rightIndex.append(end_index)
                                     sentiment.append(sentScore)
 
-                            # peekValue = indeks.start() + len(token)
-                            # endValue = peekValue + 1
-                            # if  " " in row['Comment'][peekValue:endValue]:
-                            #     print("FOUND EOS")
-                            #     start_index = indeks.start()
-                            #     end_index = start_index + len(token.orth_)
-                            #     target.append(truth.orth_)
-                            #     text.append(row['Comment'])
-                            #     leftIndex.append(start_index)
-                            #     rightIndex.append(end_index)
-                            #     sentScore = 0
-                            #     sentiment.append(sentScore)
     dfObj['content'] =text
     dfObj['aspect'] =target
     dfObj['sentiment'] = sentiment

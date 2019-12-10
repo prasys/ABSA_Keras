@@ -45,11 +45,12 @@ def loadModel(data_folder, data_name, level, model_name, is_aspect_term=True):
     return model
 
 
-def predictValue(model,documentVector,predictInput):
+def getPredictedValue(model,documentVector,predictInput):
     model.load()
     inputVector = 0
     outputVector = 0
     isFirst = True
+    predictedLabels = []
     element = model.predict(predictInput)
     for doc in documentVector:
         # print(doc)
@@ -60,7 +61,8 @@ def predictValue(model,documentVector,predictInput):
         else:
             outputVector = inputVector + int(doc) + 1
             # print("SECOND ELEMENT")
-        print(collections.Counter(element[inputVector:outputVector]))
+        print(not np.count_nonzero(element[inputVector:outputVector]))
+        # print(collections.Counter(element[inputVector:outputVector]))
         inputVector = outputVector
 
 
@@ -88,7 +90,7 @@ if __name__ == '__main__':
                              config.use_aspect_text_input, config.use_loc_input, config.use_offset_input,
                              config.use_mask)
     documentVec = np.load(saveFolder+"/totalsentence.npy")
-    predictValue(model,documentVec,predict_input)
+    getPredictedValue(model,documentVec,predict_input)
     # predictValue(model,[26,31],predict_input)
     # element = model.predict(predict_input)
     # print(element[0:25])

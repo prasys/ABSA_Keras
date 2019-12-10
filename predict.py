@@ -68,7 +68,7 @@ if __name__ == '__main__':
     tester = element[0:25]
     # print(element)
     print(collections.Counter(element))
-    print(collections.Counter(tester))
+    print(collections.Counter(tester[0:25]))
 
 
 

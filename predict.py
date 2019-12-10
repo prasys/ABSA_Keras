@@ -63,7 +63,10 @@ if __name__ == '__main__':
                              config.use_mask)
     model.load()
     print(len(predict_input))
-    print(model.predict(predict_input))
+    print(predict_input)
+    element = model.predict(predict_input)
+    print(element)
+    print(collections.Counter(element))
 
 
 

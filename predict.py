@@ -63,7 +63,7 @@ if __name__ == '__main__':
                              config.use_aspect_text_input, config.use_loc_input, config.use_offset_input,
                              config.use_mask)
     model.load()
-    element = model.predict(predict_input)
+    element = model.predict(predict_input[0:26])
     print(element)
     print(collections.Counter(element))
 

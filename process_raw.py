@@ -24,6 +24,7 @@ import re
 import spacy
 from spacy.lang.en import English
 from spacy.tokenizer import Tokenizer
+import numpy as np
 
 RANDOMSTATE = 21
 
@@ -231,8 +232,9 @@ def process_pandas(file_path, is_train_file, save_folder):
     xValidate.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
 
 
-def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
-    instanceCounter = []
+def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSentence=False):
+    if countSentence is True:
+        instanceCounter = []
     nlp = initNLP()
     if ('csv' in file_path):
         print("found CSV")
@@ -268,7 +270,8 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
 
             for token in tokens:
                 if token.is_punct is False:
-                    wordCount = wordCount+1
+                    if countSentence is True:
+                        wordCount = wordCount+1
                     # print("Current tOKEN",token.orth_)
                     for truth in truths:
                         isFound = False
@@ -339,8 +342,9 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
                                     leftIndex.append(start_index)
                                     rightIndex.append(end_index)
                                     sentiment.append(sentScore)
-            instanceCounter.append(wordCount)
-            wordCount = 0
+            if countSentence is True:
+                instanceCounter.append(wordCount)
+                wordCount = 0
 
     dfObj['content'] =text
     dfObj['aspect'] =target
@@ -348,7 +352,12 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
     dfObj['from'] =leftIndex
     dfObj['to'] = rightIndex
     dfObj = dfObj.drop_duplicates(subset=['from','to'])
-    dfObj.to_csv(os.path.join(save_folder, 'output.csv'), index=None)
+    # dfObj.to_csv(os.path.join(save_folder, 'output.csv'), index=None)
+    if countSentence is True:
+        outputarray = np.asarray(instanceCounter)
+        np.save('totalsentence.npy', outputarray)
+        print("Saved Total Sentence to File") 
+
     print(instanceCounter)
     if is_train_file is True:
         X_train, X_test = train_test_split(dfObj,test_size=0.25, random_state=10000)

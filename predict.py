@@ -11,6 +11,7 @@ import spacy
 from spacy.tokenizer import Tokenizer
 import locale
 import collections
+import numpy as np
 
 
 ##WORKAROUND FOR STUPID PYTHON 3.6 AND THE UTF-8 ISSUE WITH THE SERVER 
@@ -70,6 +71,8 @@ if __name__ == '__main__':
     print(collections.Counter(element))
     print(collections.Counter(element[0:26]))
     print(collections.Counter(element[26:58]))
+    print(np.count_nonzero(element[0:26]))
+    print(np.count_nonzero(element[26:58]))
 
 
 

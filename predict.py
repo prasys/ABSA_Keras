@@ -78,7 +78,7 @@ def getPredictedValue(model,documentVector,predictInput):
 if __name__ == '__main__':
     # locale.getpreferredencoding = getpreferredencoding
     saveFolder = './data/output'
-    filePath = './raw_data/alta/train_96.csv'
+    filePath = './raw_data/alta/test_output_68.csv'
     # nlp = spacy.load("en_core_web_sm") # load our spacy model for it
     # nlp.tokenizer = Tokenizer(nlp.vocab)
     # #Checking if we can preprocess them properly and then load our model to check if it would work or not

@@ -260,21 +260,13 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
     dfObj = pd.DataFrame(columns=['content', 'aspect', 'sentiment','from','to'])
 
     for index, row in df.iterrows():
-        if (row['Label'] != 3): # if it's all - stupid check , need to do it etter
-            
-           # print(tokens)
-          #  sentScore = 0
-
-
-
-           # print("SentScore is ",sentScore)
+        if (row['Label'] != 3): # if it's all - stupid check / need to refactor this          
 
             tokens = nlp(row['Comment']) # get the stuff
             truths =  nlp(row['Prediction'])
             isFound = False
 
             for token in tokens:
-
                 if token.is_punct is False:
                     wordCount = wordCount+1
                     # print("Current tOKEN",token.orth_)
@@ -347,7 +339,8 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
                                     leftIndex.append(start_index)
                                     rightIndex.append(end_index)
                                     sentiment.append(sentScore)
-                instanceCounter.append(wordCount)
+            instanceCounter.append(wordCount)
+            wordCount = 0
 
     dfObj['content'] =text
     dfObj['aspect'] =target

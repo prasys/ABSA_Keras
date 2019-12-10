@@ -26,7 +26,7 @@ import spacy
 from spacy.tokenizer import Tokenizer
 import locale
 from pandarallel import pandarallel #make things go fasterrr
-CORES = 32
+CORES = 4
 
 def getpreferredencoding(do_setlocale = True):
    return "utf-8"

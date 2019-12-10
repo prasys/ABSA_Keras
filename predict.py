@@ -87,7 +87,7 @@ if __name__ == '__main__':
                              config.use_text_input_r, config.use_text_input_r_with_pad, config.use_aspect_input,
                              config.use_aspect_text_input, config.use_loc_input, config.use_offset_input,
                              config.use_mask)
-    documentVec = np.load(saveFolder+"totalsentence.npy")
+    documentVec = np.load(saveFolder+"/totalsentence.npy")
     predictValue(model,documentVec,predict_input)
     # predictValue(model,[26,31],predict_input)
     # element = model.predict(predict_input)

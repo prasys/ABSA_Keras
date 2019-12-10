@@ -71,7 +71,7 @@ if __name__ == '__main__':
     # nlp = spacy.load("en_core_web_sm") # load our spacy model for it
     # nlp.tokenizer = Tokenizer(nlp.vocab)
     # #Checking if we can preprocess them properly and then load our model to check if it would work or not
-    praw.process_pandas2('./raw_data/alta/train_67.csv', is_train_file=False, save_folder='./data/output' , isClean=True) # this will process raw
+    praw.process_pandas2('./raw_data/alta/train_67.csv', is_train_file=False, save_folder='./data/output' , isClean=True, countSentence=True) # this will process raw
     # glove_vectors, glove_embed_dim = prepro.load_glove_format('./raw_data/glove.42B.300d.txt') # load the embeddings
     # prepro.process_predict('./data/output', lambda x: prepro.spacyTokenizer(x), True) # this would do the pre_processing for the data to predict
     config = Config() # load our config file

@@ -65,11 +65,13 @@ if __name__ == '__main__':
     model.load()
     element = model.predict(predict_input)
     print(element[0:25])
-    tester = element[0:25]
+    tester = element[0:26]
     # print(element)
     print(collections.Counter(element))
-    print(collections.Counter(tester[0:26]))
-    print(collections.Counter(tester[26:57]))
+    print(collections.Counter(element[0:26]))
+    print(collections.Counter(element[27:58]))
+    print(collections.Counter(tester))
+
 
 
 

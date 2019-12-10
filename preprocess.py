@@ -37,6 +37,7 @@ def checkOS():
     if platform == "linux" or platform == "linux2" or platform == "darwin":
         print("Found *NIX like System.")
         from pandarallel import pandarallel #import when we need it
+        pandarallel.initialize(nb_workers=CORES, verbose=0)
         isUnix = True
     else:
         print("Found Non-*nix like System.")
@@ -246,8 +247,6 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
 
 def pre_process(file_folder, word_cut_func, is_en):
     checkOS()
-    if isUnix:
-        pandarallel.initialize(nb_workers=CORES, verbose=0)
     print('preprocessing: ', file_folder)
     train_data = pd.read_csv(os.path.join(file_folder, 'train.csv'), header=0, index_col=None)
     train_data['content'] = train_data['content'].astype(str)
@@ -558,8 +557,6 @@ def pre_process(file_folder, word_cut_func, is_en):
 
 def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
     checkOS()
-    if isUnix:
-        pandarallel.initialize(nb_workers=CORES, verbose=0)
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     config = Config()
     print('preprocessing: ', file_folder)

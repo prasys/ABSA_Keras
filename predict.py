@@ -61,13 +61,13 @@ def getPredictedValue(model,documentVector,predictInput):
         else:
             outputVector = inputVector + int(doc) + 1
             # print("SECOND ELEMENT")
-        if not np.count_nonzero(element[inputVector:outputVector] is True:
+        if (not np.count_nonzero(element[inputVector:outputVector]) is True:
             predictedLabels.append(0) # if it is 'INSIDE'
         else:
             predictedLabels.append(1) # if it is 'OUTSIDE'
         inputVector = outputVector
     print(predictedLabels)
-    
+
 
 
 

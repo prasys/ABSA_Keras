@@ -62,7 +62,7 @@ def getPredictedValue(model,documentVector,predictInput):
             outputVector = inputVector + int(doc) + 1
             # print("SECOND ELEMENT")
         print(not np.count_nonzero(element[inputVector:outputVector]))
-        # print(collections.Counter(element[inputVector:outputVector]))
+        print(collections.Counter(element[inputVector:outputVector]))
         inputVector = outputVector
 
 

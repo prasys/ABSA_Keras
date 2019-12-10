@@ -55,7 +55,7 @@ def predictValue(model,documentVector,predictInput):
         print(doc)
         if isFirst is True:
             outputVector = int(doc)
-            isfirst = False
+            isFirst = False
             print("FIRST ELEMENT IS OFF")
         else:
             outputVector = inputVector + int(doc) + 1

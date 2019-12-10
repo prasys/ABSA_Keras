@@ -52,14 +52,14 @@ def predictValue(model,documentVector,predictInput):
     isFirst = True
     element = model.predict(predictInput)
     for doc in documentVector:
-        print(doc)
+        # print(doc)
         if isFirst is True:
             outputVector = int(doc)
             isFirst = False
-            print("FIRST ELEMENT IS OFF")
+            # print("FIRST ELEMENT IS OFF")
         else:
             outputVector = inputVector + int(doc) + 1
-            print("SECOND ELEMENT")
+            # print("SECOND ELEMENT")
         print(collections.Counter(element[inputVector:outputVector]))
         inputVector = outputVector
 

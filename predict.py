@@ -44,6 +44,24 @@ def loadModel(data_folder, data_name, level, model_name, is_aspect_term=True):
     model = SentimentModel(config)
     return model
 
+
+def predictValue(model,documentVector,predictInput):
+    model.load()
+    inputVector = 0
+    outputVector = 0
+    isFirst = True
+    element = model.predict(predictInput)
+    for doc in documentVector:
+        if isFirst:
+            outputVector = int(doc)
+            isfirst = False
+        outputVector = inputVector + int(doc) + 1
+        print(collections.Counter(element[inputVector:outputVector]))
+        inputVector = outputVector
+
+
+
+
 if __name__ == '__main__':
     # locale.getpreferredencoding = getpreferredencoding
     # nlp = spacy.load("en_core_web_sm") # load our spacy model for it
@@ -63,16 +81,17 @@ if __name__ == '__main__':
                              config.use_text_input_r, config.use_text_input_r_with_pad, config.use_aspect_input,
                              config.use_aspect_text_input, config.use_loc_input, config.use_offset_input,
                              config.use_mask)
-    model.load()
-    element = model.predict(predict_input)
-    print(element[0:25])
-    tester = element[0:26]
-    # print(element)
-    print(collections.Counter(element))
-    print(collections.Counter(element[0:26]))
-    print(collections.Counter(element[26:58]))
-    print(np.count_nonzero(element[0:26]))
-    print(np.count_nonzero(element[26:58]))
+    # model.load()
+    predictValue(model,[26,31],predict_input)
+    # element = model.predict(predict_input)
+    # print(element[0:25])
+    # tester = element[0:26]
+    # # print(element)
+    # print(collections.Counter(element))
+    # print(collections.Counter(element[0:26]))
+    # print(collections.Counter(element[26:58]))
+    # print(np.count_nonzero(element[0:26]))
+    # print(np.count_nonzero(element[26:58]))
 
 
 

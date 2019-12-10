@@ -232,6 +232,7 @@ def process_pandas(file_path, is_train_file, save_folder):
 
 
 def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
+    instanceCounter = []
     nlp = initNLP()
     if ('csv' in file_path):
         print("found CSV")
@@ -252,6 +253,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
     text = []
     target = []
     sentScore = 0
+    wordCount = 0
     leftIndex = []
     rightIndex = []
     sentiment = []
@@ -264,6 +266,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
           #  sentScore = 0
 
 
+
            # print("SentScore is ",sentScore)
 
             tokens = nlp(row['Comment']) # get the stuff
@@ -271,7 +274,9 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
             isFound = False
 
             for token in tokens:
+
                 if token.is_punct is False:
+                    wordCount = wordCount+1
                     # print("Current tOKEN",token.orth_)
                     for truth in truths:
                         isFound = False
@@ -307,42 +312,6 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
                                         break
                                 break
 
-                                # peekValue = indeks.start() + len(token)
-                                # endValue = peekValue + 1
-                                # if  " " in row['Comment'][peekValue:endValue]:
-                                #     print("FOUND EOS")
-                                #     start_index = indeks.start()
-                                #     end_index = start_index + len(truth.orth_)
-                                #     sentScore = 1
-                                #     text.append(row['Comment'])
-                                #     target.append(truth.orth_)
-                                #     leftIndex.append(start_index)
-                                #     rightIndex.append(end_index)
-                                #     sentiment.append(sentScore)
-                                #     isFound = True
-                                    
-                            # if m:
-                            #     start_index = m.start()
-                            #     end_index = start_index + len(truth.orth_)
-                            #     sentScore = 1
-                            #     text.append(row['Comment'])
-                            #     target.append(truth.orth_)
-                            #     leftIndex.append(start_index)
-                            #     rightIndex.append(end_index)
-                            #     sentiment.append(sentScore)
-                            #     isFound = True
-                            #     break
-                            # else:
-                            #     start_index = row['Comment'].find(truth.orth_)
-                            #     end_index = start_index + len(truth.orth_)
-                            #     text.append(row['Comment'])
-                            #     target.append(truth.orth_)
-                            #     sentScore = 1
-                            #     leftIndex.append(start_index)
-                            #     rightIndex.append(end_index)
-                            #     sentiment.append(sentScore)
-                            #     isFound = True
-                            #     break
                     if(isFound == False):
                         # print("CURRENT Token for FALSE",token.orth_)
                         sentScore = 0
@@ -378,6 +347,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
                                     leftIndex.append(start_index)
                                     rightIndex.append(end_index)
                                     sentiment.append(sentScore)
+                instanceCounter.append(wordCount)
 
     dfObj['content'] =text
     dfObj['aspect'] =target
@@ -386,6 +356,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False):
     dfObj['to'] = rightIndex
     dfObj = dfObj.drop_duplicates(subset=['from','to'])
     dfObj.to_csv(os.path.join(save_folder, 'output.csv'), index=None)
+    print(instanceCounter)
     if is_train_file is True:
         X_train, X_test = train_test_split(dfObj,test_size=0.25, random_state=10000)
         xTest,xValidate = train_test_split(X_test,test_size=0.001, random_state=10000)

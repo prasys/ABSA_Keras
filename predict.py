@@ -10,6 +10,7 @@ import process_raw as praw
 import spacy
 from spacy.tokenizer import Tokenizer
 import locale
+import collections
 
 
 ##WORKAROUND FOR STUPID PYTHON 3.6 AND THE UTF-8 ISSUE WITH THE SERVER 
@@ -62,8 +63,6 @@ if __name__ == '__main__':
                              config.use_aspect_text_input, config.use_loc_input, config.use_offset_input,
                              config.use_mask)
     model.load()
-    print(len(predict_input))
-    print(predict_input)
     element = model.predict(predict_input)
     print(element)
     print(collections.Counter(element))

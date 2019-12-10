@@ -55,7 +55,8 @@ def predictValue(model,documentVector,predictInput):
         if isFirst:
             outputVector = int(doc)
             isfirst = False
-        outputVector = inputVector + int(doc) + 1
+        else:
+            outputVector = inputVector + int(doc) + 1
         print(collections.Counter(element[inputVector:outputVector]))
         inputVector = outputVector
 

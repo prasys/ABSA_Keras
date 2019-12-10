@@ -355,7 +355,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
     # dfObj.to_csv(os.path.join(save_folder, 'output.csv'), index=None)
     if countSentence is True:
         outputarray = np.asarray(instanceCounter)
-        np.save('totalsentence.npy', outputarray)
+        np.save(os.path.join(save_folder, 'totalsentence.csv'), outputarray)
         print("Saved Total Sentence to File") 
     if is_train_file is True:
         X_train, X_test = train_test_split(dfObj,test_size=0.25, random_state=10000)

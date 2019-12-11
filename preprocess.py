@@ -23,6 +23,7 @@ from gensim.models import KeyedVectors
 from config import Config
 from utils import pickle_dump
 import spacy
+import sys
 from spacy.tokenizer import Tokenizer
 import locale
 #from pandarallel import pandarallel #make things go fasterrr
@@ -738,6 +739,9 @@ def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
 
 if __name__ == '__main__':
     config = Config()
+    if len(sys.argv) > 1:
+        arg = sys.argv[1]
+        print(arg)
     print("Loading Vector Embeddings")
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     nlp = spacy.load("en_core_web_sm")

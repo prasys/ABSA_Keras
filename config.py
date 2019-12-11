@@ -22,13 +22,13 @@ class Config(object):
         self.data_name = 'laptop'
         self.level = 'word'     # options are 'word' & 'char'
         self.max_len = {'laptop': {'word': 83, 'char': 465}, 'restaurant': {'word': 79, 'char': 358},
-                        'twitter': {'word': 73, 'char': 188}}
+                        'twitter': {'word': 300, 'char': 188}} # original is 73
         self.left_max_len = {'laptop': {'word': 70, 'char': 365}, 'restaurant': {'word': 72, 'char': 344},
-                             'twitter': {'word': 39, 'char': 156}}
+                             'twitter': {'word': 100, 'char': 156}} # original is 39
         self.right_max_len = {'laptop': {'word': 78, 'char': 400}, 'restaurant': {'word': 72, 'char': 326},
-                              'twitter': {'word': 67, 'char': 164}}
+                              'twitter': {'word': 150, 'char': 164}} # original is 67
         self.asp_max_len = {'laptop': {'word': 8, 'char': 58}, 'restaurant': {'word': 21, 'char': 115},
-                            'twitter': {'word': 3, 'char': 21}}
+                            'twitter': {'word': 14, 'char': 21}}
         self.word_embed_dim = 300
         self.word_embed_trainable = False
         self.word_embed_type = 'glove'    # use what kind of word embeddings, can be pre-trained on a larger corpus or just on dataset

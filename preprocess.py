@@ -253,6 +253,9 @@ def pre_process(file_folder, word_cut_func, is_en):
     train_data = pd.read_csv(os.path.join(file_folder, 'train.csv'), header=0, index_col=None)
     train_data['content'] = train_data['content'].astype(str)
     train_data['aspect'] = train_data['aspect'].astype(str)
+    print("checking for null obj",train_data['content'].isnull().sum())
+    print("checking for null obj",train_data['aspect'].isnull().sum())
+
     if isUnix:
         train_data['word_list'] = train_data['content'].parallel_apply(word_cut_func)
         train_data['char_list'] = train_data['content'].parallel_apply(lambda x: list(x))

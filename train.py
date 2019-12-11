@@ -19,11 +19,19 @@ import time
 from config import Config
 from data_loader import load_input_data, load_label
 from models import SentimentModel
+from sklearn.utils import resample # to handle resampling technique to resample the minority class to see if it works
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
-def train_model(data_folder, data_name, level, model_name, is_aspect_term=True):
+
+def handle_imbalance(label,truth):
+  resampled_label,resampled_truth = resample(label,truth,random_state=21)
+  return resampled_label, resampled_truth
+
+
+
+def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,isResampled=False):
     config.data_folder = data_folder
     config.data_name = data_name
     if not os.path.exists(os.path.join(config.checkpoint_dir, data_folder)):
@@ -77,7 +85,15 @@ def train_model(data_folder, data_name, level, model_name, is_aspect_term=True):
             train_combine_valid_input.append(train_input[i] + valid_input[i])
         train_combine_valid_label = train_label + valid_label
 
-        model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label)
+        if isResampled is False:
+          model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label) #use the default train method
+        else:
+          print("Resampling biased dataset")
+          train , label = handle_imbalance(train_combine_valid_input,train_combine_valid_label)
+          model.train(train,label,test_input,test_label)
+
+        # model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label)
+        # model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label)
 
         elapsed_time = time.time() - start_time
         print('training time:', time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))

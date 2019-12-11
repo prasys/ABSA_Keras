@@ -63,10 +63,10 @@ def getPredictedValue(model,documentVector,predictInput):
             # print("SECOND ELEMENT")
 
         isZero = not np.count_nonzero(element[inputVector:outputVector])
-        if isZero is True:
-            predictedLabels.append(0) # if it is 'INSIDE'
+        if isZero is True: # if no target can be found 
+            predictedLabels.append(1) # # mark it as "OUTSIDE"
         else:
-            predictedLabels.append(1) # if it is 'OUTSIDE'
+            predictedLabels.append(0) # if it is 'INSIDE'
         inputVector = outputVector
     print(predictedLabels)
     return predictedLabels

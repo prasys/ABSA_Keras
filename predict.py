@@ -98,7 +98,7 @@ if __name__ == '__main__':
                              config.use_mask)
     documentVec = np.load(saveFolder+"/totalsentence.npy")
     labels = getPredictedValue(model,documentVec,predict_input)
-    np.save(saveFolder+"/predictedval.npy")
+    np.save(saveFolder+"/predictedval.npy",labels) #added the option to save labels
     # predictValue(model,[26,31],predict_input)
     # element = model.predict(predict_input)
     # print(element[0:25])

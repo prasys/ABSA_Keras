@@ -742,7 +742,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         # print("Found Args - will change the default no of cores ")
         arg = sys.argv[1]
-        CORES = Args
+        CORES = arg
         print("Setting no of Cores for Multi-processing to be ",arg)
     print("Loading Vector Embeddings")
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')

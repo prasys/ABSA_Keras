@@ -77,6 +77,7 @@ def spacyTokenizer(text):
     text = str(text)
     nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
     text = text.lower()
+    print(text) #for debug reasons to check where it stops and debug
     doc = nlp(text)
     tokens = []
     for token in doc:

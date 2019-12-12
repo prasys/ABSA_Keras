@@ -74,10 +74,8 @@ def list_flatten(l):
 
 def spacyTokenizer(text):
     nlp = spacy.load("en_core_web_sm")
-    text = str(text)
     nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
     text = text.lower()
-    print(text) #for debug reasons to check where it stops and debug
     doc = nlp(text)
     tokens = []
     for token in doc:
@@ -746,7 +744,7 @@ if __name__ == '__main__':
     config = Config()
     if len(sys.argv) > 1:
         # print("Found Args - will change the default no of cores ")
-        arg = sys.argv[1]
+        arg = int(sys.argv[1]) # should handle this
         CORES = arg
         print("Setting no of Cores for Multi-processing to be ",arg)
     print("Loading Vector Embeddings")

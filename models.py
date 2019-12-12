@@ -232,7 +232,7 @@ class SentimentModel(object):
         y_train = self.prepare_label(train_label)
         if handleImbalance is True:
             print("Balancing Dataset by sub-sampling")
-            x_train , y_train = handle_imbalance(x_train,y_train)
+            x_train , y_train = self.handle_imbalance(x_train,y_train)
 
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)

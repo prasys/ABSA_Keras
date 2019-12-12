@@ -89,6 +89,8 @@ def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,i
           model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label) #use the default train method
         else:
           print("Resampling biased dataset")
+          print(train_combine_valid_label.shape)
+          print(train_combine_valid_input.shape)
           train , label = handle_imbalance(train_combine_valid_input,train_combine_valid_label)
           model.train(train,label,test_input,test_label)
 
@@ -116,8 +118,8 @@ if __name__ == '__main__':
     config.word_embed_trainable = True
     config.aspect_embed_trainable = True
 
-    train_model('books', 'laptop', 'word', 'td_lstm')
-    train_model('books', 'laptop', 'word', 'tc_lstm')
+    train_model('alta2', 'twitter', 'word', 'td_lstm',True,True)
+    # train_model('books', 'laptop', 'word', 'tc_lstm')
    # train_model('alta2', 'twitter', 'word', 'ae_lstm')
    # train_model('alta2', 'twitter', 'word', 'at_lstm')
    # train_model('alta2', 'twitter', 'word', 'atae_lstm')

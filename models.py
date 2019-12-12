@@ -232,7 +232,7 @@ class SentimentModel(object):
         x_train = self.prepare_input(train_input_data)
         print(type(x_train))
         y_train = self.prepare_label(train_label)
-        np.set_printoptions(threshold=np.inf)
+        # np.set_printoptions(threshold=np.inf)
         print(y_train.shape)
         print(y_train)
         y1 = np.argmax(y_train, axis=None, out=None)

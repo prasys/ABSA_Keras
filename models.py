@@ -223,7 +223,7 @@ class SentimentModel(object):
     def prepare_label(self, label_data):
         return to_categorical(label_data, self.config.n_classes)
 
-    def handle_imbalance(label,truth):
+    def handle_imbalance(self,label,truth):
         resampled_label,resampled_truth = resample(label,truth,random_state=21)
         return resampled_label, resampled_truth
 

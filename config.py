@@ -56,7 +56,7 @@ class Config(object):
         self.dropout = 0.2
         self.batch_size = 32
         self.n_epochs = 50
-        self.n_classes = 3
+        self.n_classes = 2
         self.learning_rate = 0.001
         self.optimizer = "adam"
 

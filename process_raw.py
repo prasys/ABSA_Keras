@@ -35,9 +35,11 @@ def initNLP():
     return nlp
 
 
-def handle_imbalance(self,label,truth):
-    resampled_label,resampled_truth = resample(label,truth,random_state=RANDOMSTATE)
-    return resampled_label, resampled_truth
+def handle_imbalance(df,label):
+    # Group the names by label , and check which one is excess , remove the extras and untill we get it - and then return the balanced dataset to test it up
+    g = df.groupby(label)
+    k = g.apply(lambda x: x.sample(g.size().min()).reset_index(drop=True))
+    return k
 
 def cleanSpecialCharacters(text):
     return (re.sub( '[^a-z0-9\']', ' ', text))
@@ -236,7 +238,7 @@ def process_pandas(file_path, is_train_file, save_folder):
     xValidate.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
 
 
-def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSentence=False,isImBalance=True):
+def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSentence=False):
     if countSentence is True:
         instanceCounter = []
     nlp = initNLP() # start our NLP detection for this.
@@ -424,7 +426,7 @@ if __name__ == '__main__':
    #             save_folder='./data/restaurant')
 
    # process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
-    process_pandas2('./raw_data/alta/train_22.csv', is_train_file=True, save_folder='./data/alta2')
+    process_pandas2('./raw_data/alta/balanced_test22.csv', is_train_file=True, save_folder='./data/alta2')
  #   process_pandas2('./raw_data/books/book_snippet.xlsx', is_train_file=True, save_folder='./data/books' , isClean=True)
    # process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
 

@@ -31,6 +31,7 @@ import tensorflow as tf
 from custom_layers import Attention, RecurrentAttention, InteractiveAttention, ContentAttention, ELMoEmbedding
 from utils import get_score_senti , get_confusion_matrix
 from data_loader import load_idx2token
+from sklearn.utils import resample # to handle resampling technique to resample the minority class to see if it works
 
 
 # callback for sentiment analysis model
@@ -222,9 +223,17 @@ class SentimentModel(object):
     def prepare_label(self, label_data):
         return to_categorical(label_data, self.config.n_classes)
 
-    def train(self, train_input_data, train_label, valid_input_data, valid_label):
+    def handle_imbalance(label,truth):
+        resampled_label,resampled_truth = resample(label,truth,random_state=21)
+        return resampled_label, resampled_truth
+
+    def train(self, train_input_data, train_label, valid_input_data, valid_label,handleImbalance=False):
         x_train = self.prepare_input(train_input_data)
         y_train = self.prepare_label(train_label)
+        if handleImbalance is True:
+            print("Balancing Dataset by sub-sampling")
+            x_train , y_train = handle_imbalance(x_train,y_train)
+
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
 

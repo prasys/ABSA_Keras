@@ -25,11 +25,6 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
 
-def handle_imbalance(label,truth):
-  resampled_label,resampled_truth = resample(label,truth,random_state=21)
-  return resampled_label, resampled_truth
-
-
 
 def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,isResampled=False):
     config.data_folder = data_folder
@@ -84,17 +79,7 @@ def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,i
         for i in range(len(train_input)):
             train_combine_valid_input.append(train_input[i] + valid_input[i])
         train_combine_valid_label = train_label + valid_label
-
-        if isResampled is False:
-          model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label) #use the default train method
-        else:
-          print("Resampling biased dataset")
-          print(len(train_combine_valid_label))
-          print(len(train_combine_valid_input))
-          train , label = handle_imbalance(train_combine_valid_input,train_combine_valid_label)
-          model.train(train,label,test_input,test_label)
-
-        # model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label)
+        model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label,isResampled)
         # model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label)
 
         elapsed_time = time.time() - start_time

@@ -89,8 +89,8 @@ def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,i
           model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label) #use the default train method
         else:
           print("Resampling biased dataset")
-          print(train_combine_valid_label.shape)
-          print(train_combine_valid_input.shape)
+          print(len(train_combine_valid_label))
+          print(len(train_combine_valid_input))
           train , label = handle_imbalance(train_combine_valid_input,train_combine_valid_label)
           model.train(train,label,test_input,test_label)
 

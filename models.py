@@ -229,11 +229,13 @@ class SentimentModel(object):
 
     def train(self, train_input_data, train_label, valid_input_data, valid_label,handleImbalance=False):
         x_train = self.prepare_input(train_input_data)
-        print(train_label.shape)
         print(type(x_train))
         y_train = self.prepare_label(train_label)
         print(y_train.shape)
         print(y_train)
+        y1 = np.argmax(y_train, axis=None, out=None)
+        print(y1)
+        print(y1.shape)
         if handleImbalance is True:
             print("Balancing Dataset by sub-sampling")
             # x_train = np.asarray(x_train)

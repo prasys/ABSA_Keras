@@ -228,6 +228,7 @@ class SentimentModel(object):
         return resampled_label, resampled_truth
 
     def train(self, train_input_data, train_label, valid_input_data, valid_label,handleImbalance=False):
+        print(train_label)
         x_train = self.prepare_input(train_input_data)
         print(type(x_train))
         y_train = self.prepare_label(train_label)

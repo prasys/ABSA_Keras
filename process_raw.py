@@ -25,6 +25,7 @@ import spacy
 from spacy.lang.en import English
 from spacy.tokenizer import Tokenizer
 import numpy as np
+from sklearn.utils import resample # to handle resampling technique to resample the minority class to see if it works
 
 RANDOMSTATE = 21
 
@@ -34,6 +35,9 @@ def initNLP():
     return nlp
 
 
+def handle_imbalance(self,label,truth):
+    resampled_label,resampled_truth = resample(label,truth,random_state=RANDOMSTATE)
+    return resampled_label, resampled_truth
 
 def cleanSpecialCharacters(text):
     return (re.sub( '[^a-z0-9\']', ' ', text))

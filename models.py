@@ -31,7 +31,6 @@ import tensorflow as tf
 from custom_layers import Attention, RecurrentAttention, InteractiveAttention, ContentAttention, ELMoEmbedding
 from utils import get_score_senti , get_confusion_matrix
 from data_loader import load_idx2token
-from sklearn.utils import resample # to handle resampling technique to resample the minority class to see if it works
 
 
 # callback for sentiment analysis model
@@ -223,28 +222,10 @@ class SentimentModel(object):
     def prepare_label(self, label_data):
         return to_categorical(label_data, self.config.n_classes)
 
-    def handle_imbalance(self,label,truth):
-        resampled_label,resampled_truth = resample(label,truth,random_state=21)
-        return resampled_label, resampled_truth
-
-    def train(self, train_input_data, train_label, valid_input_data, valid_label,handleImbalance=False):
-        print(train_label)
-        wololo = np.transpose(train_label)
+    def train(self, train_input_data, train_label, valid_input_data, valid_label):
         x_train = self.prepare_input(train_input_data)
-        print(type(x_train))
         y_train = self.prepare_label(train_label)
-        print(x_train)
-        print(type(x_train))
-        print(len(x_train))
         # np.set_printoptions(threshold=np.inf)
-        if handleImbalance is True:
-            print("Balancing Dataset by sub-sampling")
-            # x_train = np.asarray(x_train)
-            print(wololo.shape)
-            x1train = np.transpose(x_train)
-            print(x1train.shape)
-            x_train , y_train = self.handle_imbalance(x1train,wololo)
-
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
 

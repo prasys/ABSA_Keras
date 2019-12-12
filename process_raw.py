@@ -236,10 +236,10 @@ def process_pandas(file_path, is_train_file, save_folder):
     xValidate.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)
 
 
-def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSentence=False):
+def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSentence=False,isImBalance=True):
     if countSentence is True:
         instanceCounter = []
-    nlp = initNLP()
+    nlp = initNLP() # start our NLP detection for this.
     if ('csv' in file_path):
         print("found CSV")
         df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
@@ -255,6 +255,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
    # df['Comment'] = df['Comment'].apply(cleanSpecialCharacters)
     df['Prediction'] = df['Prediction'].astype(str) #make them as str
     df['Prediction'] = df['Prediction'].str.lower()
+
     #df['Prediction'] = df['Prediction'].apply(cleanSpecialCharacters)
     text = []
     target = []

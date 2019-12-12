@@ -229,6 +229,7 @@ class SentimentModel(object):
 
     def train(self, train_input_data, train_label, valid_input_data, valid_label,handleImbalance=False):
         x_train = self.prepare_input(train_input_data)
+        print(train_label.shape)
         print(type(x_train))
         y_train = self.prepare_label(train_label)
         print(y_train.shape)

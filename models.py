@@ -233,6 +233,7 @@ class SentimentModel(object):
         x_train = self.prepare_input(train_input_data)
         print(type(x_train))
         y_train = self.prepare_label(train_label)
+        print(x_train)
         # np.set_printoptions(threshold=np.inf)
         if handleImbalance is True:
             print("Balancing Dataset by sub-sampling")

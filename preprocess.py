@@ -73,8 +73,8 @@ def list_flatten(l):
     return result
 
 def spacyTokenizer(text):
-    nlp = spacy.load("en_core_web_sm")
-    nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
+    # nlp = spacy.load("en_core_web_sm")
+    # nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
     text = text.lower()
     doc = nlp(text)
     tokens = []

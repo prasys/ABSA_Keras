@@ -31,6 +31,8 @@ import tensorflow as tf
 from custom_layers import Attention, RecurrentAttention, InteractiveAttention, ContentAttention, ELMoEmbedding
 from utils import get_score_senti , get_confusion_matrix
 from data_loader import load_idx2token
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
 # callback for sentiment analysis model

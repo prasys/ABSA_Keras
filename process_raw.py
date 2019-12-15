@@ -26,6 +26,8 @@ from spacy.lang.en import English
 from spacy.tokenizer import Tokenizer
 import numpy as np
 from sklearn.utils import resample # to handle resampling technique to resample the minority class to see if it works
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 RANDOMSTATE = 21
 

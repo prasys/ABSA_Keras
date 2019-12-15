@@ -12,6 +12,8 @@ from spacy.tokenizer import Tokenizer
 import locale
 import collections
 import numpy as np
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
 ##WORKAROUND FOR STUPID PYTHON 3.6 AND THE UTF-8 ISSUE WITH THE SERVER 

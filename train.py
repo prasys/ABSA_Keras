@@ -26,7 +26,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
 
-def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,isResampled=False):
+def train_model(data_folder, data_name, level, model_name, is_aspect_term=True):
     config.data_folder = data_folder
     config.data_name = data_name
     if not os.path.exists(os.path.join(config.checkpoint_dir, data_folder)):

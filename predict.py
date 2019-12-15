@@ -86,7 +86,7 @@ if __name__ == '__main__':
     # #Checking if we can preprocess them properly and then load our model to check if it would work or not
     praw.process_pandas2(filePath, is_train_file=False, save_folder=saveFolder , isClean=True, countSentence=True) # this will process raw
     glove_vectors, glove_embed_dim = prepro.load_glove_format('./raw_data/glove.42B.300d.txt') # load the embeddings
-    prepro.process_predict(saveFolder, lambda x: prepro.spacyTokenizer(x,True), True) # this would do the pre_processing for the data to predict
+    prepro.process_predict(saveFolder, lambda x: prepro.spacyTokenizer(x,True,True), True) # this would do the pre_processing for the data to predict
     config = Config() # load our config file
     config.use_elmo = False
     config.use_elmo_alone = False

@@ -72,7 +72,7 @@ def list_flatten(l):
             result.append(item)
     return result
 
-def spacyTokenizer(text,useNLPObj=False):
+def spacyTokenizer(text,useNLPObj=False,isFirstTime=False):
     if isFirstTime and useNLPObj:       
         nlp = spacy.load("en_core_web_sm")
         print("Load Spacy")
@@ -564,7 +564,7 @@ def pre_process(file_folder, word_cut_func, is_en):
 
 def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
     checkOS()
-    isFirstTime = True
+    # isFirstTime = True
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     config = Config()
     print('preprocessing: ', file_folder)

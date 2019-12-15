@@ -29,8 +29,7 @@ import locale
 #from pandarallel import pandarallel #make things go fasterrr
 from sys import platform
 CORES = 4
-isUnix = True;
-isFirstTime = True;
+isUnix = True
 
 def getpreferredencoding(do_setlocale = True):
    return "utf-8"
@@ -565,6 +564,7 @@ def pre_process(file_folder, word_cut_func, is_en):
 
 def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
     checkOS()
+    isFirstTime = True
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     config = Config()
     print('preprocessing: ', file_folder)

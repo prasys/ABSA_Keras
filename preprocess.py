@@ -30,6 +30,7 @@ import locale
 from sys import platform
 CORES = 4
 isUnix = True;
+isFirstTime = True;
 
 def getpreferredencoding(do_setlocale = True):
    return "utf-8"
@@ -72,9 +73,12 @@ def list_flatten(l):
             result.append(item)
     return result
 
-def spacyTokenizer(text):
-    # nlp = spacy.load("en_core_web_sm")
-    # nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
+def spacyTokenizer(text,useNLPObj=False):
+    if isFirstTime and useNLPObj:       
+        nlp = spacy.load("en_core_web_sm")
+        print("Load Spacy")
+        nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
+        isFirstTime  = False
     text = text.lower()
     doc = nlp(text)
     tokens = []
@@ -564,8 +568,8 @@ def process_predict(file_folder, word_cut_func, is_en, file_name='output.csv'):
     glove_vectors, glove_embed_dim = load_glove_format('./raw_data/glove.42B.300d.txt')
     config = Config()
     print('preprocessing: ', file_folder)
-    nlp = spacy.load("en_core_web_sm")
-    nlp.tokenizer = Tokenizer(nlp.vocab)
+    # nlp = spacy.load("en_core_web_sm")
+    # nlp.tokenizer = Tokenizer(nlp.vocab)
     train_data = pd.read_csv(os.path.join(file_folder, file_name), header=0, index_col=None)
     train_data['content'] = train_data['content'].astype(str)
     train_data['aspect'] = train_data['aspect'].astype(str)

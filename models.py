@@ -238,7 +238,6 @@ class SentimentModel(object):
         # xFixed = np.reshape(x_train)
         counter = 0
         for element in x_train:
-            print element
             print(len(element))
             for junk in element:
                 print (junk)

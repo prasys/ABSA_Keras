@@ -234,9 +234,7 @@ class SentimentModel(object):
         # np.set_printoptions(threshold=np.inf)
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
-        print(x_train)
-        x_train = np.asarray(x_train)
-        print(x_train.shape)
+        print("LENGTH OF THIS STUPID THING IS",len(x_train))
 
 
         if imBalanced is True:

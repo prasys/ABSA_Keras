@@ -26,7 +26,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
 
-def train_model(data_folder, data_name, level, model_name, is_aspect_term=True):
+def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,classWeights=None):
     config.data_folder = data_folder
     config.data_name = data_name
     if not os.path.exists(os.path.join(config.checkpoint_dir, data_folder)):
@@ -79,7 +79,7 @@ def train_model(data_folder, data_name, level, model_name, is_aspect_term=True):
         for i in range(len(train_input)):
             train_combine_valid_input.append(train_input[i] + valid_input[i])
         train_combine_valid_label = train_label + valid_label
-        model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label)
+        model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label,classWeights)
         # model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label)
 
         elapsed_time = time.time() - start_time
@@ -102,12 +102,12 @@ if __name__ == '__main__':
 
     config.word_embed_trainable = True
     config.aspect_embed_trainable = True
-
-    train_model('alta2', 'twitter', 'word', 'td_lstm',True)
-    # train_model('books', 'laptop', 'word', 'tc_lstm')
-   # train_model('alta2', 'twitter', 'word', 'ae_lstm')
-   # train_model('alta2', 'twitter', 'word', 'at_lstm')
-   # train_model('alta2', 'twitter', 'word', 'atae_lstm')
+    class_weight = {0 : 1, 1 : 6.5} #increase the rate
+    train_model(data_folder='alta2', data_name='twitter', level='word', model_name='td_lstm',is_aspect_term=True,classWeights=class_weight)
+    # train_model('alta2', 'twitter', 'word', 'tc_lstm')
+    # train_model('alta2', 'twitter', 'word', 'ae_lstm')
+    # train_model('alta2', 'twitter', 'word', 'at_lstm')
+    # train_model('alta2', 'twitter', 'word', 'atae_lstm')
    # train_model('alta2', 'twitter', 'word', 'memnet')
    # train_model('alta2', 'twitter', 'word', 'ram')
    # train_model('alta2', 'twitter', 'word', 'ian')

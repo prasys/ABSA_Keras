@@ -236,10 +236,9 @@ class SentimentModel(object):
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
         print("LENGTH OF THIS STUPID THING IS",len(x_train))
+        xTest = np.asarray(x_train)
+        print("SHAPE OF THE ARRAY IS",xTest.shape)
 
-        for items in x_train:
-            print(items)
-            print(len(items))
 
 
         if imBalanced is True:

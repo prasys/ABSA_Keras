@@ -236,6 +236,11 @@ class SentimentModel(object):
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
         xFixed = np.reshape(x_train)
+        counter = 0
+        for element in x_train:
+            for junk in element:
+                print (junk)
+                counter = counter + 1
         #xFixed = [a.reshape(-1, 100) for a in x_train]
         xTest = np.asarray(xFixed)
         print("SHAPE OF THE ARRAY IS",xTest.shape)

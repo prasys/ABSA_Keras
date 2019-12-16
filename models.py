@@ -243,6 +243,7 @@ class SentimentModel(object):
                 print (junk)
                 counter = counter + 1
         #xFixed = [a.reshape(-1, 100) for a in x_train]
+        print("Total instance is",counter)
         xTest = np.asarray(xFixed)
         print("SHAPE OF THE ARRAY IS",xTest.shape)
         print("LENGTH OF THIS STUPID THING IS",len(x_train))

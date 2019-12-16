@@ -34,6 +34,9 @@ from data_loader import load_idx2token
 import warnings
 import matplotlib.pyplot as plt
 warnings.simplefilter(action='ignore', category=FutureWarning)
+from imblearn.keras import balanced_batch_generator
+from imblearn.under_sampling import NearMiss
+
 
 
 # callback for sentiment analysis model
@@ -225,16 +228,33 @@ class SentimentModel(object):
     def prepare_label(self, label_data):
         return to_categorical(label_data, self.config.n_classes)
 
-    def train(self, train_input_data, train_label, valid_input_data, valid_label,class_weights=None):
+    def train(self, train_input_data, train_label, valid_input_data, valid_label,class_weights=None,imBalanced=False):
         x_train = self.prepare_input(train_input_data)
         y_train = self.prepare_label(train_label)
         # np.set_printoptions(threshold=np.inf)
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
 
-        print('start training...')
-        history = self.model.fit(x=x_train, y=y_train, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
-                       validation_data=(x_valid, y_valid), callbacks=self.callbacks, class_weight=class_weights)
+        if imBalanced is True:
+            print("Applying ImBalance Technique")
+            training_generator, steps_per_epoch = balanced_batch_generator(
+                x_train, y_train, sampler=NearMiss(), batch_size=10, random_state=42)
+
+
+
+        if imBalanced is False:
+            print('start training (without ImBalance)...')
+            history = self.model.fit(x=x_train, y=y_train, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
+                           validation_data=(x_valid, y_valid), callbacks=self.callbacks, class_weight=class_weights)
+        else:
+            print('start training (without ImBalance)...')
+            history = self.model.fit_generator(generator=training_generator,steps_per_epoch=steps_per_epoch, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
+               validation_data=(x_valid, y_valid), callbacks=self.callbacks, class_weight=class_weights)
+
+
+        
+
+
         plt.plot(history.history['acc'])
         plt.plot(history.history['val_acc'])
         plt.title('Model accuracy')

@@ -234,13 +234,12 @@ class SentimentModel(object):
         # np.set_printoptions(threshold=np.inf)
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
-        print(y_train.shape)
 
 
         if imBalanced is True:
             print("Applying ImBalance Technique")
             training_generator, steps_per_epoch = balanced_batch_generator(
-                x_train, y_train, sampler=NearMiss(), batch_size=10, random_state=42)
+                x_train, train_label, sampler=NearMiss(), batch_size=10, random_state=42)
 
 
 

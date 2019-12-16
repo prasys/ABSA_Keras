@@ -238,13 +238,14 @@ class SentimentModel(object):
         counter = 0
         kaunter = 0
         for element in x_train:
-            # print(len(element))
+
             for junk in element:
                 for a in junk:
                     kaunter = kaunter + 1
+                print(kaunter)
                 kaunter = 0
+
                 counter = counter + 1
-            print(kaunter)
         #xFixed = [a.reshape(-1, 100) for a in x_train]
         xTest = np.asarray(xFixed)
         print("SHAPE OF THE ARRAY IS",xTest.shape)

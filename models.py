@@ -235,7 +235,7 @@ class SentimentModel(object):
         # np.set_printoptions(threshold=np.inf)
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
-        xFixed = np.reshape(x_train)
+        # xFixed = np.reshape(x_train)
         counter = 0
         for element in x_train:
             print element

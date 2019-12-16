@@ -235,18 +235,16 @@ class SentimentModel(object):
         # np.set_printoptions(threshold=np.inf)
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
-        xFixed = np.reshape(x_train,(1468,150,2))
-        # counter = 0
-        # kaunter = 0
-        # for element in x_train:
-        #     print(len(element))
-        #     for junk in element:
-        #         for a in junk:
-        #             kaunter = kaunter + 1
-
-        #         print(kaunter)
-        #         kaunter = 0
-        #         counter = counter + 1
+        counter = 0
+        kaunter = 0
+        for element in x_train:
+            # print(len(element))
+            for junk in element:
+                for a in junk:
+                    kaunter = kaunter + 1
+                kaunter = 0
+                counter = counter + 1
+            print(kaunter)
         #xFixed = [a.reshape(-1, 100) for a in x_train]
         xTest = np.asarray(xFixed)
         print("SHAPE OF THE ARRAY IS",xTest.shape)

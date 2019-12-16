@@ -367,8 +367,8 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
         np.save(os.path.join(save_folder, 'totalsentence.npy'), outputarray)
         print("Saved Total Sentence to File") 
     if is_train_file is True:
-        X_train, X_test = train_test_split(dfObj,test_size=0.25, random_state=10000)
-        xTest,xValidate = train_test_split(X_test,test_size=0.001, random_state=10000)
+        X_train, X_test = train_test_split(dfObj,test_size=0.30, stratify=y,random_state=10000) # change the size
+        xTest,xValidate = train_test_split(X_test,test_size=0.50, stratify=y,random_state=10000) # change the size
         X_train.to_csv(os.path.join(save_folder, 'train.csv'), index=None)
         xTest.to_csv(os.path.join(save_folder, 'test.csv'), index=None)
         xValidate.to_csv(os.path.join(save_folder, 'valid.csv'), index=None)

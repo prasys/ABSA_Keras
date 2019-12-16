@@ -104,10 +104,10 @@ if __name__ == '__main__':
     config.aspect_embed_trainable = True
 
     train_model('alta2', 'twitter', 'word', 'td_lstm')
-    train_model('alta2', 'twitter', 'word', 'tc_lstm')
-    train_model('alta2', 'twitter', 'word', 'ae_lstm')
-    train_model('alta2', 'twitter', 'word', 'at_lstm')
-    train_model('alta2', 'twitter', 'word', 'atae_lstm')
+    # train_model('alta2', 'twitter', 'word', 'tc_lstm')
+    # train_model('alta2', 'twitter', 'word', 'ae_lstm')
+    # train_model('alta2', 'twitter', 'word', 'at_lstm')
+    # train_model('alta2', 'twitter', 'word', 'atae_lstm')
    # train_model('alta2', 'twitter', 'word', 'memnet')
    # train_model('alta2', 'twitter', 'word', 'ram')
    # train_model('alta2', 'twitter', 'word', 'ian')

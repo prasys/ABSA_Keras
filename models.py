@@ -32,6 +32,7 @@ from custom_layers import Attention, RecurrentAttention, InteractiveAttention, C
 from utils import get_score_senti , get_confusion_matrix
 from data_loader import load_idx2token
 import warnings
+import matplotlib.pyplot as plt
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
@@ -232,8 +233,15 @@ class SentimentModel(object):
         y_valid = self.prepare_label(valid_label)
 
         print('start training...')
-        self.model.fit(x=x_train, y=y_train, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
+        history = self.model.fit(x=x_train, y=y_train, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
                        validation_data=(x_valid, y_valid), callbacks=self.callbacks)
+        plt.plot(history.history['acc'])
+        plt.plot(history.history['val_acc'])
+        plt.title('Model accuracy')
+        plt.ylabel('Accuracy')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.savefig('model_acc.png')
         print('training end...')
 
         print('score over valid data:')

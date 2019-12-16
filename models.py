@@ -237,6 +237,10 @@ class SentimentModel(object):
         y_valid = self.prepare_label(valid_label)
         print("LENGTH OF THIS STUPID THING IS",len(x_train))
 
+        for items in x_train:
+            print(items)
+            print(len(items))
+
 
         if imBalanced is True:
             print("Applying ImBalance Technique")

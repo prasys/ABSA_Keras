@@ -229,6 +229,7 @@ class SentimentModel(object):
         return to_categorical(label_data, self.config.n_classes)
 
     def train(self, train_input_data, train_label, valid_input_data, valid_label,class_weights=None,imBalanced=False):
+        print("LENGTH OF THIS STUPID input thing IS",len(train_input_data))
         x_train = self.prepare_input(train_input_data)
         y_train = self.prepare_label(train_label)
         # np.set_printoptions(threshold=np.inf)

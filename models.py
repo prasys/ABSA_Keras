@@ -225,7 +225,7 @@ class SentimentModel(object):
     def prepare_label(self, label_data):
         return to_categorical(label_data, self.config.n_classes)
 
-    def train(self, train_input_data, train_label, valid_input_data, valid_label):
+    def train(self, train_input_data, train_label, valid_input_data, valid_label,class_weights=None):
         x_train = self.prepare_input(train_input_data)
         y_train = self.prepare_label(train_label)
         # np.set_printoptions(threshold=np.inf)
@@ -234,7 +234,7 @@ class SentimentModel(object):
 
         print('start training...')
         history = self.model.fit(x=x_train, y=y_train, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
-                       validation_data=(x_valid, y_valid), callbacks=self.callbacks)
+                       validation_data=(x_valid, y_valid), callbacks=self.callbacks, class_weight=class_weights)
         plt.plot(history.history['acc'])
         plt.plot(history.history['val_acc'])
         plt.title('Model accuracy')

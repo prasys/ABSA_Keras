@@ -235,6 +235,9 @@ class SentimentModel(object):
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
 
+        print(x_train.shape)
+        print(y_train.shape)
+
         if imBalanced is True:
             print("Applying ImBalance Technique")
             training_generator, steps_per_epoch = balanced_batch_generator(

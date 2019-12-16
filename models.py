@@ -235,7 +235,8 @@ class SentimentModel(object):
         # np.set_printoptions(threshold=np.inf)
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
-        xFixed = [a.reshape(-1, 100) for a in x_train]
+        xFixed = np.reshape(list_data)
+        #xFixed = [a.reshape(-1, 100) for a in x_train]
         xTest = np.asarray(xFixed)
         print("SHAPE OF THE ARRAY IS",xTest.shape)
         print("LENGTH OF THIS STUPID THING IS",len(x_train))

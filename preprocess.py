@@ -91,6 +91,24 @@ def spacyTokenizer(text,useNLPObj=False,isFirstTime=False):
                 tokens.append(token.orth_)
     return tokens
 
+def spacyTokenizer_train(text,useNLPObj=False,isFirstTime=False):
+    if isFirstTime and useNLPObj:       
+        nlp = spacy.load("en_core_web_sm")
+        print("Load Spacy")
+        nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
+        isFirstTime  = False
+    text = text.lower()
+    doc = nlp(text)
+    tokens = []
+    for token in doc:
+        if token.is_punct is False:
+            if token.orth_ == 've': #special handling case
+                tokens.append("'ve")
+            elif token.orth_ == "  ":
+                tokens.append(" ")
+            else:
+                tokens.append(token.orth_)
+    return tokens
 
 
 def build_vocabulary(corpus, start_id=1):

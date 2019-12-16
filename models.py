@@ -241,6 +241,7 @@ class SentimentModel(object):
         print("LENGTH OF THIS STUPID THING IS",len(x_train))
         print("SHAPE OF THE ARRAY IS",xTest.shape)
         print("DOES THIS EVEN WORK?")
+        print(xTest)
 
 
 

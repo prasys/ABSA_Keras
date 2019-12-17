@@ -277,16 +277,15 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
             truths =  nlp(row['Prediction'])
             isFound = False
 
-            for token in tokens:
-                if token.is_punct is False:
-                    if countSentence is True:
+            for token in tokens: #tokenize
+                if token.is_punct is False: #just to make sure we don't get the dots and other junk
+                    if countSentence is True: # this is to determine the no of sentences found inside , it is required later on 
                         wordCount = wordCount+1
                     # print("Current tOKEN",token.orth_)
                     for truth in truths:
                         isFound = False
-                        if(truth.orth_ == token.orth_): #if we have found a match
+                        if(truth.orth_ == token.orth_): #if we have found a match with the prediction , we add them in 
                             m = re.finditer(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
-                            # print(truth.orth_)
                             mlength = re.findall(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
                             for indeks in m:
                                 if len(mlength) == 1:
@@ -360,7 +359,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
     dfObj['sentiment'] = sentiment
     dfObj['from'] =leftIndex
     dfObj['to'] = rightIndex
-    dfObj = dfObj.drop_duplicates(subset=['from','to'])
+    # dfObj = dfObj.drop_duplicates(subset=['from','to'])
     dfObj.to_csv(os.path.join(save_folder, 'output.csv'), index=None) # This is needed to be read by the preprocess.py
     if countSentence is True:
         outputarray = np.asarray(instanceCounter)

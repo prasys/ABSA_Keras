@@ -240,7 +240,7 @@ class SentimentModel(object):
         xt = x_train[1]
         for element in xt:
             for items in element:
-                print(len(items))
+                print(items.shape)
 
 
 

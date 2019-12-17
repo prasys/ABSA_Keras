@@ -256,10 +256,10 @@ class SentimentModel(object):
 
 
 
-        if imBalanced is True:
-            # print("Applying ImBalance Technique")
-            # training_generator, steps_per_epoch = balanced_batch_generator(
-            #     x_train, y_train, sampler=NearMiss(), batch_size=10, random_state=42)
+        # if imBalanced is True:
+        #     # print("Applying ImBalance Technique")
+        #     # training_generator, steps_per_epoch = balanced_batch_generator(
+        #     #     x_train, y_train, sampler=NearMiss(), batch_size=10, random_state=42)
 
 
 

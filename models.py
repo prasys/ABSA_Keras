@@ -247,19 +247,19 @@ class SentimentModel(object):
 
                 counter = counter + 1
         #xFixed = [a.reshape(-1, 100) for a in x_train]
-        xTest = np.asarray(xFixed)
-        print("SHAPE OF THE ARRAY IS",xTest.shape)
-        print("LENGTH OF THIS STUPID THING IS",len(x_train))
-        print("SHAPE OF THE ARRAY IS",xTest.shape)
-        print("DOES THIS EVEN WORK?")
-        print(xTest)
+        # xTest = np.asarray(xFixed)
+        # print("SHAPE OF THE ARRAY IS",xTest.shape)
+        # print("LENGTH OF THIS STUPID THING IS",len(x_train))
+        # print("SHAPE OF THE ARRAY IS",xTest.shape)
+        # print("DOES THIS EVEN WORK?")
+        # print(xTest)
 
 
 
         if imBalanced is True:
-            print("Applying ImBalance Technique")
-            training_generator, steps_per_epoch = balanced_batch_generator(
-                x_train, y_train, sampler=NearMiss(), batch_size=10, random_state=42)
+            # print("Applying ImBalance Technique")
+            # training_generator, steps_per_epoch = balanced_batch_generator(
+            #     x_train, y_train, sampler=NearMiss(), batch_size=10, random_state=42)
 
 
 

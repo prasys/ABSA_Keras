@@ -237,7 +237,7 @@ class SentimentModel(object):
         y_valid = self.prepare_label(valid_label)
         counter = 0
         kaunter = 0
-        xt = x_train[0]
+        xt = x_train[1]
         for element in xt:
             for items in element:
                 print(len(items))

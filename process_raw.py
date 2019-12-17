@@ -359,7 +359,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
     dfObj['sentiment'] = sentiment
     dfObj['from'] =leftIndex
     dfObj['to'] = rightIndex
-    # dfObj = dfObj.drop_duplicates(subset=['from','to'])
+    dfObj = dfObj.drop_duplicates(subset=['content','from','to'])
     dfObj.to_csv(os.path.join(save_folder, 'output.csv'), index=None) # This is needed to be read by the preprocess.py
     if countSentence is True:
         outputarray = np.asarray(instanceCounter)
@@ -427,7 +427,7 @@ if __name__ == '__main__':
    #             save_folder='./data/restaurant')
 
    # process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
-    process_pandas2('./raw_data/alta/balanced_test22.csv', is_train_file=True, save_folder='./data/alta2',isClean=True)
+    process_pandas2('./raw_data/alta/balanced_test1.csv', is_train_file=True, save_folder='./data/alta2',isClean=True)
  #   process_pandas2('./raw_data/books/book_snippet.xlsx', is_train_file=True, save_folder='./data/books' , isClean=True)
    # process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
 

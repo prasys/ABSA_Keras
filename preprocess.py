@@ -234,8 +234,8 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
         # Situation for the word_list with that thing is empty , need to find out why it happens. In order for me to understand deeper
         word_list_l = word_cut_func(text[:start])
         word_list_r = word_cut_func(text[end:])
-        print(word_list_l) # to DEBUG TOMORROW
-        print(word_list_r) # to DEBUG TOMORROW
+        # print(word_list_l) # to DEBUG TOMORROW
+        # print(word_list_r) # to DEBUG TOMORROW
         start = len(word_list_l)
         end = len(word_list) - len(word_list_r)
        # print("WORD LIST IS ")

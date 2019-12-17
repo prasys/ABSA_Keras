@@ -237,22 +237,10 @@ class SentimentModel(object):
         y_valid = self.prepare_label(valid_label)
         counter = 0
         kaunter = 0
-        for element in x_train:
-
-            for junk in element:
-                for a in junk:
-                    kaunter = kaunter + 1
-                print(kaunter)
-                kaunter = 0
-
-                counter = counter + 1
-        #xFixed = [a.reshape(-1, 100) for a in x_train]
-        # xTest = np.asarray(xFixed)
-        # print("SHAPE OF THE ARRAY IS",xTest.shape)
-        # print("LENGTH OF THIS STUPID THING IS",len(x_train))
-        # print("SHAPE OF THE ARRAY IS",xTest.shape)
-        # print("DOES THIS EVEN WORK?")
-        # print(xTest)
+        xt = x_train[0]
+        for element in xt:
+            for items in element:
+                print(len(items))
 
 
 

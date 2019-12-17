@@ -104,7 +104,7 @@ if __name__ == '__main__':
     config.aspect_embed_trainable = True
     class_weight = {0 : 0.5521023765996343, 1 : 5.298245614035087} #increase the rate
     # train_model(data_folder='alta2', data_name='twitter', level='word', model_name='td_lstm',is_aspect_term=True,classWeights=class_weight)
-    train_model(data_folder='alta2', data_name='twitter', level='word', model_name='td_lstm',is_aspect_term=True,classWeights=None,imBalanced=True)
+    train_model(data_folder='alta2', data_name='twitter', level='word', model_name='atae_lstm',is_aspect_term=True,classWeights=class_weight,imBalanced=False)
     # train_model('alta2', 'twitter', 'word', 'tc_lstm')
     # train_model('alta2', 'twitter', 'word', 'ae_lstm')
     # train_model('alta2', 'twitter', 'word', 'at_lstm')

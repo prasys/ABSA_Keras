@@ -235,14 +235,6 @@ class SentimentModel(object):
         # np.set_printoptions(threshold=np.inf)
         x_valid = self.prepare_input(valid_input_data)
         y_valid = self.prepare_label(valid_label)
-        counter = 0
-        kaunter = 0
-        xt = x_train[1]
-        for element in xt:
-            print (element)
-
-
-
         # if imBalanced is True:
         #     # print("Applying ImBalance Technique")
         #     # training_generator, steps_per_epoch = balanced_batch_generator(

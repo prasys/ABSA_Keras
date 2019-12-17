@@ -53,11 +53,11 @@ class Config(object):
         self.dense_units = 128
 
         # model training configuration
-        self.dropout = 0.2
-        self.batch_size = 32
+        self.dropout = 0.6
+        self.batch_size = 64
         self.n_epochs = 50
         self.n_classes = 2
-        self.learning_rate = 0.001
+        self.learning_rate = 0.00001
         self.optimizer = "adam"
 
         # model saving configuration

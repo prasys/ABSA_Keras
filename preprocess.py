@@ -94,7 +94,7 @@ def spacyTokenizer(text,useNLPObj=False,isFirstTime=False):
 def spacyTokenizer_train(text,useNLPObj=False,isFirstTime=False):
     if isFirstTime and useNLPObj:       
         nlp = spacy.load("en_core_web_sm")
-        print("Load Spacy")
+        # print("Load Spacy")
         nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
         isFirstTime  = False
     text = text.lower()

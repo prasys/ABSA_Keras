@@ -78,7 +78,7 @@ def getPredictedValue(model,documentVector,predictInput):
 
 
 if __name__ == '__main__':
-    # locale.getpreferredencoding = getpreferredencoding
+    # locale.getpreferredencoding = getpreferredencoding a
     saveFolder = './data/output'
     filePath = './raw_data/alta/test_kaggle.csv'
     # nlp = spacy.load("en_core_web_sm") # load our spacy model for it

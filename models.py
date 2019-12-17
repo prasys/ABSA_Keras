@@ -239,8 +239,7 @@ class SentimentModel(object):
         kaunter = 0
         xt = x_train[1]
         for element in xt:
-            for items in element:
-                print(items.shape)
+            print (element)
 
 
 

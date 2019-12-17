@@ -265,11 +265,13 @@ class SentimentModel(object):
 
         if imBalanced is False:
             print('start training (without ImBalance)...')
-            history = self.model.fit(x=x_train, y=y_train, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
+            history = self.model.fit(x=(x_train[0],x_train[1]), y=y_train, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
                            validation_data=(x_valid, y_valid), callbacks=self.callbacks, class_weight=class_weights)
         else:
             print('start training (without ImBalance)...')
-            history = self.model.fit_generator(generator=training_generator,steps_per_epoch=steps_per_epoch, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
+            # history = self.model.fit_generator(generator=training_generator,steps_per_epoch=steps_per_epoch, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
+            #    validation_data=(x_valid, y_valid), callbacks=self.callbacks, class_weight=class_weights)
+            history = self.model.fit(x=(x_train[0],x_train[1]), y=y_train, batch_size=self.config.batch_size, epochs=self.config.n_epochs,
                validation_data=(x_valid, y_valid), callbacks=self.callbacks, class_weight=class_weights)
 
 

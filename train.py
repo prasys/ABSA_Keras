@@ -75,11 +75,11 @@ def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,c
               But generally, we won't do that, because test data will not (and should not) be accessible during training 
               process.
         '''
-        train_combine_valid_input = []
-        for i in range(len(train_input)):
-            train_combine_valid_input.append(train_input[i] + valid_input[i])
-        train_combine_valid_label = train_label + valid_label
-        model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label,classWeights,imBalanced)
+        # train_combine_valid_input = []
+        # for i in range(len(train_input)):
+        #     train_combine_valid_input.append(train_input[i] + valid_input[i])
+        # train_combine_valid_label = train_label + valid_label
+        model.train(train_input, train_label, test_input, test_label,classWeights,imBalanced)
         # model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label)
 
         elapsed_time = time.time() - start_time

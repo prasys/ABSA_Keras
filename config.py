@@ -53,11 +53,11 @@ class Config(object):
         self.dense_units = 128
 
         # model training configuration
-        self.dropout = 0.6
+        self.dropout = 0.2
         self.batch_size = 64
         self.n_epochs = 50
         self.n_classes = 2
-        self.learning_rate = 0.00001
+        self.learning_rate = 0.0001
         self.optimizer = "adam"
 
         # model saving configuration
@@ -75,9 +75,9 @@ class Config(object):
         self.early_stopping_mode = 'max'
 
         # elmo embedding configure
-        self.use_elmo = False
+        self.use_elmo = True
         self.use_elmo_alone = False
-        self.elmo_hub_url = './raw_data/tfhub_elmo_2'
+        self.elmo_hub_url = 'None'
         self.elmo_output_mode = 'elmo'
         self.idx2token = None
         self.idx2aspect_token = None

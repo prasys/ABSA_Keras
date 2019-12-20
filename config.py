@@ -22,7 +22,7 @@ class Config(object):
         self.data_name = 'laptop'
         self.level = 'word'     # options are 'word' & 'char'
         self.max_len = {'laptop': {'word': 83, 'char': 465}, 'restaurant': {'word': 79, 'char': 358},
-                        'twitter': {'word': 206, 'char': 188}} # original is 73
+                        'twitter': {'word': 104, 'char': 188}} # original is 73
         self.left_max_len = {'laptop': {'word': 70, 'char': 365}, 'restaurant': {'word': 72, 'char': 344},
                              'twitter': {'word': 33, 'char': 156}} # original is 39
         self.right_max_len = {'laptop': {'word': 78, 'char': 400}, 'restaurant': {'word': 72, 'char': 326},

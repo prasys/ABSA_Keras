@@ -71,6 +71,7 @@ class SentimentModel(object):
         self.config = config
         self.level = self.config.level
         self.use_elmo = self.config.use_elmo
+        print("IS ELMO on",self.use_elmo)
         self.max_len = self.config.max_len[self.config.data_name][self.level]
         self.left_max_len = self.config.left_max_len[self.config.data_name][self.level]
         self.right_max_len = self.config.right_max_len[self.config.data_name][self.level]

@@ -18,7 +18,8 @@ import tensorflow as tf
 import tensorflow.keras.backend as B
 import tensorflow_hub as hub
 from keras import backend as K, initializers, regularizers, constraints
-from keras.engine.topology import Layer
+# from keras.engine.topology import Layer
+from tensorflow.python.keras.engine import Layer
 
 
 # modified based on `https://gist.github.com/cbaziotis/7ef97ccf71cbc14366835198c09809d2`

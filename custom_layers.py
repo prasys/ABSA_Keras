@@ -15,7 +15,7 @@
 """
 
 import tensorflow as tf
-import tensorflow.keras.backend as B
+import tensorflow.keras.backend as K
 import tensorflow_hub as hub
 from tensorflow.python.keras.engine import Layer
 

@@ -77,7 +77,7 @@ class Config(object):
         # elmo embedding configure
         self.use_elmo = True
         self.use_elmo_alone = False
-        self.elmo_hub_url = 'None'
+        self.elmo_hub_url = 'https://tfhub.dev/google/elmo/3'
         self.elmo_output_mode = 'elmo'
         self.idx2token = None
         self.idx2aspect_token = None

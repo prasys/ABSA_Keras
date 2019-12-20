@@ -479,7 +479,7 @@ class ELMoEmbedding(Layer):
 
         if self.elmo_trainable:
             print('Logging Info - ELMo model trainable')
-            self.trainable_weights += K.tf.trainable_variables(scope="^{}_elmo_hub/.*".format(self.name))
+            self.trainable_weights += tf.trainable_variables(scope="^{}_elmo_hub/.*".format(self.name))
         else:
             print('Logging Info - ELMo model untrainable')
 

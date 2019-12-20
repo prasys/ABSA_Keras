@@ -13,11 +13,10 @@
 @desc:
 
 """
-
 import tensorflow as tf
-import tensorflow.keras.backend as K
 import tensorflow_hub as hub
-from tensorflow.python.keras.engine import Layer
+from keras import backend as K, initializers, regularizers, constraints
+from keras.engine.topology import Layer
 
 
 # modified based on `https://gist.github.com/cbaziotis/7ef97ccf71cbc14366835198c09809d2`
@@ -479,7 +478,7 @@ class ELMoEmbedding(Layer):
 
         if self.elmo_trainable:
             print('Logging Info - ELMo model trainable')
-            self.trainable_weights += tf.trainable_variables(scope="^{}_elmo_hub/.*".format(self.name))
+            self.trainable_weights += K.tf.trainable_variables(scope="^{}_elmo_hub/.*".format(self.name))
         else:
             print('Logging Info - ELMo model untrainable')
 

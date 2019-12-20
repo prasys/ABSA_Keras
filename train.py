@@ -96,7 +96,7 @@ def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,c
 
 if __name__ == '__main__':
     config = Config()
-    config.use_elmo = False
+    config.use_elmo = True
     config.use_elmo_alone = False
     config.elmo_trainable = False
 
@@ -105,9 +105,9 @@ if __name__ == '__main__':
     class_weight = {0 : 0.5521023765996343, 1 : 5.298245614035087} #increase the rate
     # train_model(data_folder='alta2', data_name='twitter', level='word', model_name='td_lstm',is_aspect_term=True,classWeights=class_weight)
     train_model(data_folder='alta2', data_name='twitter', level='word', model_name='td_lstm',is_aspect_term=True,classWeights=class_weight,imBalanced=False)
-    train_model(data_folder='alta2', data_name='twitter', level='word', model_name='tc_lstm',is_aspect_term=True,classWeights=class_weight,imBalanced=False)
-    train_model(data_folder='alta2', data_name='twitter', level='word', model_name='at_lstm',is_aspect_term=True,classWeights=class_weight,imBalanced=False)
-    # train_model('alta2', 'twitter', 'word', 'tc_lstm')
+    # train_model(data_folder='alta2', data_name='twitter', level='word', model_name='tc_lstm',is_aspect_term=True,classWeights=class_weight,imBalanced=False)
+    # train_model(data_folder='alta2', data_name='twitter', level='word', model_name='at_lstm',is_aspect_term=True,classWeights=class_weight,imBalanced=False)
+    # # train_model('alta2', 'twitter', 'word', 'tc_lstm')
     # train_model('alta2', 'twitter', 'word', 'ae_lstm')
     # train_model('alta2', 'twitter', 'word', 'at_lstm')
     # train_model('alta2', 'twitter', 'word', 'atae_lstm')

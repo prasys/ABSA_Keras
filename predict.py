@@ -93,9 +93,6 @@ if __name__ == '__main__':
     config.elmo_trainable = False
     config.word_embed_trainable = True
     config.aspect_embed_trainable = True
-    if config.use_elmo:
-        config.exp_name += '_elmo_alone_{}_mode_{}_{}'.format(config.use_elmo_alone, config.elmo_output_mode,
-                                                              'update' if config.elmo_trainable else 'fix')
     model = loadModel('alta2', 'twitter', 'word', 'td_lstm') # pick when model to load and to do the test
     predict_input = load_input_data('output', 'test', config.level, config.use_text_input, config.use_text_input_l, #temp workaround
                              config.use_text_input_r, config.use_text_input_r_with_pad, config.use_aspect_input,

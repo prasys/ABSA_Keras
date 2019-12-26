@@ -45,6 +45,7 @@ def get_score_senti(y_true, y_pred):
 
     print('acc:', acc)
     print('macro_f1:', f1)
+    print('micro_f1:',f1_m)
     return acc, f1
 
 def get_confusion_matrix(y_true,y_pred):

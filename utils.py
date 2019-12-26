@@ -50,6 +50,7 @@ def get_confusion_matrix(y_true,y_pred):
     y_true = np.argmax(y_true, axis=-1)
     y_pred = np.argmax(y_pred, axis=-1)
     tn, fp , fn , tp = confusion_matrix(y_pred, y_true).ravel()
+    print('DSC:'calcDiceScore(tp,fp,fn))
     print('tp:',tp)
     print('fp:',fp)
     print('fn:',fn)
@@ -57,18 +58,19 @@ def get_confusion_matrix(y_true,y_pred):
     return tp,fp,fn,tn
 
 
+def calcDiceScore(tp,fp,fn):
+	"""
+	returns DSC Score for the sample. Since it's in ordered status , it would be 
+	:param y_true: array shaped [batch_size, 3]
+	:param y_pred: array shaped [batch_size, 3]
+	:return:
+	"""
+	return (2*tp/(2*tp+fp+fn))
 
 
 
 
 
-
-    """
-    return score for predictions made by sentiment analysis model
-    :param y_true: array shaped [batch_size, 3]
-    :param y_pred: array shaped [batch_size, 3]
-    :return:
-    """
 
 
 

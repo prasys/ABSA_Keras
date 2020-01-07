@@ -73,7 +73,7 @@ elif ('xlsx' in file_path):
 
 df['Comment'] = df['Comment'].str.lower() # make it lower
 df['Comment'] = df['Comment'].apply(scrub_words) #clean up
-df['Comment'].apply(addToTotalCounter)
+df['Comment'].apply(doItAll)
 print(c)
 
 

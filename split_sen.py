@@ -58,7 +58,7 @@ def addToTotalCounter(tokenizer):
 def doItAll(text):
 	tokens = spacyTokenizer(text)
 	print(tokens)
-	addToTotalCounter(tokenizer)
+	addToTotalCounter(tokens)
 
 
 file_path = './raw_data/books/book_snippet.xlsx'

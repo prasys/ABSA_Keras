@@ -12,6 +12,7 @@ from sys import platform
 CORES = 4
 isFirstTime = True
 totalstuff[]
+c = Counter()
 
 
 def cleanSpecialCharacters(text):
@@ -52,13 +53,7 @@ def spacyTokenizer(text,useNLPObj=False,isFirstTime=False):
 
 
 def addToTotalCounter(tokenizer):
-	if isFirstTime:
-		c = Counter(tokenizer)
-	else:
-		c.update(tokenizer)
-
-	return c
-
+	c.update(tokenizer)
 
 file_path = './data/books'
 nlp = spacy.load("en_core_web_sm")
@@ -72,3 +67,10 @@ nlp.tokenizer = Tokenizer(nlp.vocab)
 
 df['Comment'] = df['Comment'].str.lower() # make it lower
 df['Comment'] = df['Comment'].apply(scrub_words) #clean up
+df['Comment'].apply(addToTotalCounter)
+print(c)
+
+
+
+
+

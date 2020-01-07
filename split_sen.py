@@ -73,7 +73,10 @@ elif ('xlsx' in file_path):
 df['Comment'] = df['Comment'].str.lower() # make it lower
 df['Comment'] = df['Comment'].apply(scrub_words) #clean up
 df['Comment'].apply(doItAll)
-print(c)
+b = pd.DataFrame.from_dict(c,columns={'word','count'}) #counter done
+b.to_csv('count.csv',index=False)
+
+
 
 
 

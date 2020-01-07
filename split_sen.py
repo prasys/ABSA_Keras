@@ -11,7 +11,6 @@ import locale
 from sys import platform
 CORES = 4
 isFirstTime = True
-totalstuff[]
 c = Counter()
 
 

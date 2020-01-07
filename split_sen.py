@@ -57,7 +57,6 @@ def addToTotalCounter(tokenizer):
 
 def doItAll(text):
 	tokens = spacyTokenizer(text)
-	print(tokens)
 	addToTotalCounter(tokens)
 
 

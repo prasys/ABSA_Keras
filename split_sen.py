@@ -70,12 +70,12 @@ elif ('xlsx' in file_path):
     print("found XLSX")
     df = pd.read_excel(file_path, sheet_name='Sheet1')
 
-df['Comment'] = df['Comment'].str.lower() # make it lower
-df['Comment'] = df['Comment'].apply(scrub_words) #clean up
-df['Comment'].apply(doItAll)
+df['Prediction'] = df['Prediction'].str.lower() # make it lower
+df['Prediction'] = df['Prediction'].apply(scrub_words) #clean up
+df['Prediction'].apply(doItAll)
 b = pd.DataFrame(list(c.items()))
 #b = pd.DataFrame.from_dict(c,orient='index') #counter done
-b.to_csv('count.csv',index=False)
+b.to_csv('count_pred.csv',index=False)
 
 
 

@@ -6,6 +6,7 @@ from collections import Counter
 import spacy
 import sys
 from spacy.tokenizer import Tokenizer
+import re
 import locale
 #from pandarallel import pandarallel #make things go fasterrr
 from sys import platform

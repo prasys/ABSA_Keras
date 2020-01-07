@@ -14,7 +14,22 @@ isFirstTime = True
 totalstuff[]
 
 
+def cleanSpecialCharacters(text):
+    return (re.sub( '[^a-z0-9\']', ' ', text))
 
+def scrub_words(text):
+    """Basic cleaning of texts."""
+    """Taken from https://github.com/kavgan/nlp-in-practice/blob/master/text-pre-processing/Text%20Preprocessing%20Examples.ipynb """
+    
+    # remove html markup
+    text=re.sub("(<.*?>)","",text)
+    
+    #remove non-ascii and digits
+    text=re.sub("(\\W|\\d)"," ",text)
+    
+    # remove the extra spaces that we have so that it is easier for our split :) Taken from https://stackoverflow.com/questions/2077897/substitute-multiple-whitespace-with-single-whitespace-in-python
+    text=re.sub(' +', ' ', text).strip()
+    return text
 
 def spacyTokenizer(text,useNLPObj=False,isFirstTime=False):
     # if isFirstTime and useNLPObj:       
@@ -45,4 +60,15 @@ def addToTotalCounter(tokenizer):
 	return c
 
 
+file_path = './data/books'
+nlp = spacy.load("en_core_web_sm")
+nlp.tokenizer = Tokenizer(nlp.vocab)
+    if ('csv' in file_path):
+        print("found CSV")
+        df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
+    elif ('xlsx' in file_path):
+        print("found XLSX")
+        df = pd.read_excel(file_path, sheet_name='Sheet1')
 
+df['Comment'] = df['Comment'].str.lower() # make it lower
+df['Comment'] = df['Comment'].apply(scrub_words) #clean up

@@ -55,6 +55,11 @@ def spacyTokenizer(text,useNLPObj=False,isFirstTime=False):
 def addToTotalCounter(tokenizer):
 	c.update(tokenizer)
 
+def doItAll(text):
+	tokens = spacyTokenizer(text)
+	addToTotalCounter(tokenizer)
+
+
 file_path = './raw_data/books/book_snippet.xlsx'
 nlp = spacy.load("en_core_web_sm")
 nlp.tokenizer = Tokenizer(nlp.vocab)

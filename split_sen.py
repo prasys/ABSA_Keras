@@ -57,12 +57,12 @@ def addToTotalCounter(tokenizer):
 file_path = './raw_data/books/book_snippet.xlsx'
 nlp = spacy.load("en_core_web_sm")
 nlp.tokenizer = Tokenizer(nlp.vocab)
-    if ('csv' in file_path):
-        print("found CSV")
-        df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
-    elif ('xlsx' in file_path):
-        print("found XLSX")
-        df = pd.read_excel(file_path, sheet_name='Sheet1')
+if ('csv' in file_path):
+    print("found CSV")
+    df = pd.read_csv(file_path, sep=',', header=0,encoding = "ISO-8859-1") #read the file here
+elif ('xlsx' in file_path):
+    print("found XLSX")
+    df = pd.read_excel(file_path, sheet_name='Sheet1')
 
 df['Comment'] = df['Comment'].str.lower() # make it lower
 df['Comment'] = df['Comment'].apply(scrub_words) #clean up

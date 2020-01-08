@@ -60,7 +60,7 @@ def doItAll(text):
 	addToTotalCounter(tokens)
 
 
-file_path = './raw_data/books/book_snippet.xlsx'
+file_path = './raw_data/alta/train_22.csv'
 nlp = spacy.load("en_core_web_sm")
 nlp.tokenizer = Tokenizer(nlp.vocab)
 if ('csv' in file_path):
@@ -75,7 +75,7 @@ df['Prediction'] = df['Prediction'].apply(scrub_words) #clean up
 df['Prediction'].apply(doItAll)
 b = pd.DataFrame(list(c.items()))
 #b = pd.DataFrame.from_dict(c,orient='index') #counter done
-b.to_csv('count_pred.csv',index=False)
+b.to_csv('alta_pred.csv',index=False)
 
 
 

@@ -51,6 +51,31 @@ def spacyTokenizer(text,useNLPObj=False,isFirstTime=False):
                 tokens.append(token.orth_)
     return tokens
 
+def LemenSpacy(text,useNLPObj=False,isFirstTime=False):
+    # if isFirstTime and useNLPObj:       
+    #     nlp = spacy.load("en_core_web_sm")
+    #     print("Load Spacy")
+    #     nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
+    #     isFirstTime  = False
+    text = text.lower()
+    doc = nlp(text)
+    tokens = []
+    for token in doc:
+        if token.is_punct is False:
+            if token.orth_ == 've': #special handling case
+                tokens.append("'ve")
+            elif token.orth_ == "  ":
+                tokens.append(" ")
+            else:
+                print(token.lemma)
+
+                if token.lemma_ == '-PRON-':
+                    tokens.append(token.orth_)
+                else:
+                    tokens.append(token.lemma_)
+    return tokens
+
+
 
 def addToTotalCounter(tokenizer):
 	c.update(tokenizer)
@@ -70,13 +95,14 @@ elif ('xlsx' in file_path):
     print("found XLSX")
     df = pd.read_excel(file_path, sheet_name='Sheet1')
 
-df['Prediction'] = df['Prediction'].str.lower() # make it lower
-df['Prediction'] = df['Prediction'].apply(scrub_words) #clean up
-df['Prediction'].apply(doItAll)
+#https://medium.com/@awantikdas/a-comprehensive-naive-bayes-tutorial-using-scikit-learn-f6b71ae84431
+
+df['Comment'] = df['Comment'].str.lower() # make it lower
+df['Comment'] = df['Comment'].apply(scrub_words) #clean up
+df['Comment'].apply(doItAll)
 b = pd.DataFrame(list(c.items()))
 #b = pd.DataFrame.from_dict(c,orient='index') #counter done
-b.to_csv('alta_pred.csv',index=False)
-
+b.to_csv('alta_total.csv',index=False)
 
 
 

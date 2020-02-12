@@ -22,17 +22,17 @@ class Config(object):
         self.data_name = 'laptop'
         self.level = 'word'     # options are 'word' & 'char'
         self.max_len = {'laptop': {'word': 83, 'char': 465}, 'restaurant': {'word': 79, 'char': 358},
-                        'twitter': {'word': 104, 'char': 188}} # original is 73
-        self.left_max_len = {'laptop': {'word': 70, 'char': 365}, 'restaurant': {'word': 72, 'char': 344},
-                             'twitter': {'word': 33, 'char': 156}} # original is 39
-        self.right_max_len = {'laptop': {'word': 78, 'char': 400}, 'restaurant': {'word': 72, 'char': 326},
-                              'twitter': {'word': 33, 'char': 164}} # original is 67
+                        'twitter': {'word': 31, 'char': 188}} # original is 73
+        self.left_max_len = {'laptop': {'word': 16, 'char': 366}, 'restaurant': {'word': 72, 'char': 344},
+                             'twitter': {'word': 100, 'char': 156}} # original is 39
+        self.right_max_len = {'laptop': {'word': 15, 'char': 362}, 'restaurant': {'word': 72, 'char': 326},
+                              'twitter': {'word': 150, 'char': 164}} # original is 67
         self.asp_max_len = {'laptop': {'word': 8, 'char': 58}, 'restaurant': {'word': 21, 'char': 115},
-                            'twitter': {'word': 14, 'char': 21}}
+                            'twitter': {'word': 7, 'char': 21}}
         self.word_embed_dim = 300
         self.word_embed_trainable = False
         self.word_embed_type = 'glove'    # use what kind of word embeddings, can be pre-trained on a larger corpus or just on dataset
-        self.aspect_embed_dim = 300
+        self.aspect_embed_dim =300
         self.aspect_embed_trainable = False
         self.aspect_embed_type = 'glove'     # use mean of word embeddings or just randomly initialization
         self.use_text_input = None
@@ -54,30 +54,30 @@ class Config(object):
 
         # model training configuration
         self.dropout = 0.2
-        self.batch_size = 64
-        self.n_epochs = 50
+        self.batch_size = 32
+        self.n_epochs = 30
         self.n_classes = 2
-        self.learning_rate = 0.0001
+        self.learning_rate = 0.001
         self.optimizer = "adam"
 
         # model saving configuration
         self.checkpoint_dir = './ckpt'
-        self.checkpoint_monitor = 'val_acc'
+        self.checkpoint_monitor = 'val_f1'
         self.checkpoint_save_best_only = True
         self.checkpoint_save_weights_only = True
         self.checkpoint_save_weights_mode = 'max'
         self.checkpoint_verbose = 1
 
         # early stopping configuration
-        self.early_stopping_monitor = 'val_acc'
+        self.early_stopping_monitor = 'val_f1'
         self.early_stopping_patience = 5
         self.early_stopping_verbose = 1
         self.early_stopping_mode = 'max'
 
         # elmo embedding configure
-        self.use_elmo = True
+        self.use_elmo = False
         self.use_elmo_alone = False
-        self.elmo_hub_url = 'https://tfhub.dev/google/elmo/3'
+        self.elmo_hub_url = 'https://tfhub.dev/google/elmo/2'
         self.elmo_output_mode = 'elmo'
         self.idx2token = None
         self.idx2aspect_token = None

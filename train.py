@@ -75,11 +75,11 @@ def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,c
               But generally, we won't do that, because test data will not (and should not) be accessible during training 
               process.
         '''
-        # train_combine_valid_input = []
-        # for i in range(len(train_input)):
-        #     train_combine_valid_input.append(train_input[i] + valid_input[i])
-        # train_combine_valid_label = train_label + valid_label
-        model.train(train_input, train_label, test_input, test_label,classWeights,imBalanced)
+        train_combine_valid_input = []
+        for i in range(len(train_input)):
+            train_combine_valid_input.append(train_input[i] + valid_input[i])
+        train_combine_valid_label = train_label + valid_label
+        model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label,classWeights,imBalanced)
         # model.train(train_combine_valid_input, train_combine_valid_label, test_input, test_label)
 
         elapsed_time = time.time() - start_time
@@ -97,17 +97,16 @@ def train_model(data_folder, data_name, level, model_name, is_aspect_term=True,c
 if __name__ == '__main__':
     config = Config()
     config.use_elmo = True
-    config.use_elmo_alone = False
-    config.elmo_trainable = False
+    config.use_elmo_alone = True
+    config.elmo_trainable = True
 
-    config.word_embed_trainable = True
+    config.word_embed_trainable = False
     config.aspect_embed_trainable = True
     class_weight = {0 : 0.5521023765996343, 1 : 5.298245614035087} #increase the rate
-    # train_model(data_folder='alta2', data_name='twitter', level='word', model_name='td_lstm',is_aspect_term=True,classWeights=class_weight)
+#    train_model(data_folder='books', data_name='laptop', level='word', model_name='td_lstm',is_aspect_term=True)
+#    train_model(data_folder='books', data_name='laptop', level='word', model_name='td_lstm',is_aspect_term=True)
     train_model(data_folder='alta2', data_name='twitter', level='word', model_name='td_lstm',is_aspect_term=True,classWeights=class_weight,imBalanced=False)
-    # train_model(data_folder='alta2', data_name='twitter', level='word', model_name='tc_lstm',is_aspect_term=True,classWeights=class_weight,imBalanced=False)
-    # train_model(data_folder='alta2', data_name='twitter', level='word', model_name='at_lstm',is_aspect_term=True,classWeights=class_weight,imBalanced=False)
-    # # train_model('alta2', 'twitter', 'word', 'tc_lstm')
+    # train_model('alta2', 'twitter', 'word', 'tc_lstm')
     # train_model('alta2', 'twitter', 'word', 'ae_lstm')
     # train_model('alta2', 'twitter', 'word', 'at_lstm')
     # train_model('alta2', 'twitter', 'word', 'atae_lstm')

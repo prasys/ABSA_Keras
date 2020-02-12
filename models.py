@@ -284,9 +284,48 @@ class SentimentModel(object):
         return np.argmax(prediction, axis=-1)
 
     # target dependent lstm
-    def td_lstm(self):
+    # def td_lstm(self):
+    #     input_l = Input(shape=(self.left_max_len, ))
+    #     input_r = Input(shape=(self.right_max_len, ))
+
+    #     if self.use_elmo:
+    #         l_elmo_embedding = ELMoEmbedding(output_mode=self.config.elmo_output_mode, idx2word=self.config.idx2token,
+    #                                          mask_zero=True, hub_url=self.config.elmo_hub_url,
+    #                                          elmo_trainable=self.config.elmo_trainable)
+    #         r_elmo_embedding = ELMoEmbedding(output_mode=self.config.elmo_output_mode, idx2word=self.config.idx2token,
+    #                                          mask_zero=True, hub_url=self.config.elmo_hub_url,
+    #                                          elmo_trainable=self.config.elmo_trainable)
+    #         if self.config.use_elmo_alone:
+    #             input_l_embed = SpatialDropout1D(0.2)(l_elmo_embedding(input_l))
+    #             input_r_embed = SpatialDropout1D(0.2)(r_elmo_embedding(input_r))
+    #         else:
+    #             word_embedding = Embedding(input_dim=self.text_embeddings.shape[0],
+    #                                        output_dim=self.config.word_embed_dim,
+    #                                        weights=[self.text_embeddings], trainable=self.config.word_embed_trainable,
+    #                                        mask_zero=True)
+    #             input_l_embed = SpatialDropout1D(0.2)(concatenate([word_embedding(input_l), l_elmo_embedding(input_l)]))
+    #             input_r_embed = SpatialDropout1D(0.2)(concatenate([word_embedding(input_r), 
+    #                 (input_r)]))
+    #     else:
+    #         word_embedding = Embedding(input_dim=self.text_embeddings.shape[0], output_dim=self.config.word_embed_dim,
+    #                                    weights=[self.text_embeddings], trainable=self.config.word_embed_trainable,
+    #                                    mask_zero=True)
+    #         input_l_embed = SpatialDropout1D(0.2)(word_embedding(input_l))
+    #         input_r_embed = SpatialDropout1D(0.2)(word_embedding(input_r))
+
+    #     # regarding aspect string as the last unit
+    #     hidden_l = LSTM(self.config.lstm_units)(input_l_embed)
+    #     hidden_r = LSTM(self.config.lstm_units, go_backwards=True)(input_r_embed)
+
+    #     hidden_concat = concatenate([hidden_l, hidden_r], axis=-1)
+
+    #     return Model([input_l, input_r], hidden_concat)
+
+
+        def td_lstm(self):
         input_l = Input(shape=(self.left_max_len, ))
         input_r = Input(shape=(self.right_max_len, ))
+        input_aspect = Input(shape=(1,))
 
         if self.use_elmo:
             l_elmo_embedding = ELMoEmbedding(output_mode=self.config.elmo_output_mode, idx2word=self.config.idx2token,
@@ -304,7 +343,8 @@ class SentimentModel(object):
                                            weights=[self.text_embeddings], trainable=self.config.word_embed_trainable,
                                            mask_zero=True)
                 input_l_embed = SpatialDropout1D(0.2)(concatenate([word_embedding(input_l), l_elmo_embedding(input_l)]))
-                input_r_embed = SpatialDropout1D(0.2)(concatenate([word_embedding(input_r), r_elmo_embedding(input_r)]))
+                input_r_embed = SpatialDropout1D(0.2)(concatenate([word_embedding(input_r), 
+                    (input_r)]))
         else:
             word_embedding = Embedding(input_dim=self.text_embeddings.shape[0], output_dim=self.config.word_embed_dim,
                                        weights=[self.text_embeddings], trainable=self.config.word_embed_trainable,

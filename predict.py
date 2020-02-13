@@ -93,9 +93,9 @@ if __name__ == '__main__':
     glove_vectors, glove_embed_dim = prepro.load_glove_format('./raw_data/glove.42B.300d.txt') # load the embeddings
 #    prepro.process_predict(saveFolder, lambda x: prepro.spacyTokenizer_train(x,True,True), True) # this would do the pre_processing for the data to predict
     config = Config() # load our config file
-    config.use_elmo = False
-    config.use_elmo_alone = False
-    config.elmo_trainable = False
+    config.use_elmo = True
+    config.use_elmo_alone = True
+    config.elmo_trainable = True
     config.word_embed_trainable = False
     config.aspect_embed_trainable = True
     model = loadModel('alta2', 'twitter', 'word', modelName) # pick when model to load and to do the test #td_lstm

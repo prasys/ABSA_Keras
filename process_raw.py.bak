@@ -250,9 +250,6 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
     elif ('xlsx' in file_path):
         print("found XLSX")
         df = pd.read_excel(file_path, sheet_name='Sheet1')
-    else:
-        print("Probably a dataframe")
-        
     if isClean is True:
         print("Applying scrub cleaner")
         df['Comment'] = df['Comment'].apply(scrub_words)
@@ -280,15 +277,16 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
             truths =  nlp(row['Prediction'])
             isFound = False
 
-            for token in tokens: #tokenize
-                if token.is_punct is False: #just to make sure we don't get the dots and other junk
-                    if countSentence is True: # this is to determine the no of sentences found inside , it is required later on 
+            for token in tokens:
+                if token.is_punct is False:
+                    if countSentence is True:
                         wordCount = wordCount+1
                     # print("Current tOKEN",token.orth_)
                     for truth in truths:
                         isFound = False
-                        if(truth.orth_ == token.orth_): #if we have found a match with the prediction , we add them in 
+                        if(truth.orth_ == token.orth_): #if we have found a match
                             m = re.finditer(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
+                            # print(truth.orth_)
                             mlength = re.findall(r'\b'+ re.escape(truth.orth_) +r'\b', row['Comment'], re.IGNORECASE) # find all instances
                             for indeks in m:
                                 if len(mlength) == 1:
@@ -362,7 +360,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
     dfObj['sentiment'] = sentiment
     dfObj['from'] =leftIndex
     dfObj['to'] = rightIndex
-    dfObj = dfObj.drop_duplicates(subset=['content','from','to'])
+    dfObj = dfObj.drop_duplicates(subset=['from','to'])
     dfObj.to_csv(os.path.join(save_folder, 'output.csv'), index=None) # This is needed to be read by the preprocess.py
     if countSentence is True:
         outputarray = np.asarray(instanceCounter)
@@ -430,10 +428,10 @@ if __name__ == '__main__':
    #             save_folder='./data/restaurant')
 
    # process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
-#    process_pandas2('./raw_data/alta/test_alta_dataset.csv', is_train_file=True, save_folder='./data/alta2',isClean=True,countSentence=True)
-    #  process_pandas2('./raw_data/books/BooksTest.csv', is_train_file=True, save_folder='./data/books' , isClean=True)
-     process_pandas2('./raw_data/twitter/TweetsProcessedTest.csv', is_train_file=True, save_folder='./data/tweets' , isClean=True,countSentence=True)
+    process_pandas2('./raw_data/alta/balanced_test1.csv', is_train_file=True, save_folder='./data/alta2',isClean=True)
+ #   process_pandas2('./raw_data/books/book_snippet.xlsx', is_train_file=True, save_folder='./data/books' , isClean=True)
    # process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
+
     # process_fsauor('./raw_data/fsauor2018/train.csv', save_path='./data/fsauor/train.csv')
     # process_fsauor('./raw_data/fsauor2018/valid.csv', save_path='./data/fsauor/valid.csv')
     # process_fsauor('./raw_data/fsauor2018/test.csv', save_path='./data/fsauor/test.csv')

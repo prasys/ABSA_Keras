@@ -57,11 +57,8 @@ def load_glove_format(filename):
             word_vectors[word] = word_vector
             if embeddings_dim == -1:
                 embeddings_dim = len(word_vector)
-                print(len(word_vector))
 
-#vw = (embeddings_dim for vw in word_vectors.values())
-#   print(len(vw))
-#   assert all(len(vw) == embeddings_dim for vw in word_vectors.values())
+    assert all(len(vw) == embeddings_dim for vw in word_vectors.values())
 
     return word_vectors, embeddings_dim
 
@@ -97,7 +94,7 @@ def spacyTokenizer(text,useNLPObj=False,isFirstTime=False):
 def spacyTokenizer_train(text,useNLPObj=False,isFirstTime=False):
     if isFirstTime and useNLPObj:       
         nlp = spacy.load("en_core_web_sm")
-        # print("Load Spacy")
+        print("Load Spacy")
         nlp.tokenizer = Tokenizer(nlp.vocab) #lod our customized tokenizer overwritten method
         isFirstTime  = False
     text = text.lower()
@@ -237,8 +234,8 @@ def split_text_and_get_loc_info(data, word_vocab, char_vocab, word_cut_func):
         # Situation for the word_list with that thing is empty , need to find out why it happens. In order for me to understand deeper
         word_list_l = word_cut_func(text[:start])
         word_list_r = word_cut_func(text[end:])
-        # print(word_list_l) # to DEBUG TOMORROW
-        # print(word_list_r) # to DEBUG TOMORROW
+        print(word_list_l) # to DEBUG TOMORROW
+        print(word_list_r) # to DEBUG TOMORROW
         start = len(word_list_l)
         end = len(word_list) - len(word_list_r)
        # print("WORD LIST IS ")
@@ -784,5 +781,5 @@ if __name__ == '__main__':
     #pre_process('./data/twitter', lambda x: nltk.word_tokenize(x), True)
     #pre_process('./data/alta', lambda x: nltk.word_tokenize(x), True)
    # pre_process('./data/alta2', lambda x: nltk.word_tokenize(x), True)
-    pre_process('./data/tweets', lambda x: spacyTokenizer(x), True)
-  #  pre_process('./data/books', lambda x: spacyTokenizer(x), True)
+#    pre_process('./data/alta2', lambda x: spacyTokenizer(x), True)
+    pre_process('./data/books', lambda x: spacyTokenizer(x), True)

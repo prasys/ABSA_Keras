@@ -364,6 +364,9 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
     dfObj['from'] =leftIndex
     dfObj['to'] = rightIndex
     dfObj = dfObj.drop_duplicates(subset=['content','from','to'])
+    if not os.path.exists(save_folder):
+        print("Folder not found - mkdir")
+        os.makedirs(save_folder)
     dfObj.to_csv(os.path.join(save_folder, 'output.csv'), index=None) # This is needed to be read by the preprocess.py
     if countSentence is True:
         outputarray = np.asarray(instanceCounter)

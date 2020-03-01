@@ -24,18 +24,24 @@ if __name__ == '__main__':
 		trainX,testX = test_train_split(result,seed=seed)
 		seedPath = filePath + "/" + str(seed)
 		pr.process_pandas2(trainX, is_train_file=True, save_folder=seedPath,isClean=True)
-		src = seedpath + "/" + "train.csv"
-		dst = seedpath + "/" + "train_good.csv"
+		src = seedpath + "/" + "output.csv"
+		dst = seedpath + "/" + "output_train.csv"
 		print("Renaming train file")
 		os.rename(src, dst)
 		pr.process_pandas2(testX, is_train_file=True, save_folder=seedPath,isClean=True,countSentence=True)
-		src = seedpath + "/" + "train.csv"
-		dst = seedpath + "/" + "test.csv"
+		src = seedpath + "/" + "output.csv"
+		dst = seedpath + "/" + "output_test.csv"
 		print("Renaming test file")
 		os.rename(src, dst)
-		src = seedpath + "/" + "train_good.csv"
+		src = seedpath + "/" + "output_train.csv"
 		dst = seedpath + "/" + "train.csv"
 		print("Renaming others file")
+		os.remove(dst)
+		os.rename(src, dst)
+		src = seedpath + "/" + "output_test.csv"
+		dst = seedpath + "/" + "test.csv"
+		print("Renaming others file")
+		os.remove(dst)
 		os.rename(src, dst)
 
 

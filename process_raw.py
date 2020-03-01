@@ -252,7 +252,7 @@ def process_pandas2(file_path, is_train_file, save_folder,isClean=False,countSen
         df = pd.read_excel(file_path, sheet_name='Sheet1')
     else:
         print("Probably a dataframe")
-        
+
     if isClean is True:
         print("Applying scrub cleaner")
         df['Comment'] = df['Comment'].apply(scrub_words)
@@ -430,9 +430,8 @@ if __name__ == '__main__':
    #             save_folder='./data/restaurant')
 
    # process_twitter('./raw_data/twitter/train.txt', is_train_file=True, save_folder='./data/twitter')
-#    process_pandas2('./raw_data/alta/test_alta_dataset.csv', is_train_file=True, save_folder='./data/alta2',isClean=True,countSentence=True)
-    #  process_pandas2('./raw_data/books/BooksTest.csv', is_train_file=True, save_folder='./data/books' , isClean=True)
-     process_pandas2('./raw_data/twitter/TweetsProcessedTest.csv', is_train_file=True, save_folder='./data/tweets' , isClean=True,countSentence=True)
+ process_pandas2('./raw_data/alta/train_alta_dataset.csv', is_train_file=True, save_folder='./data/alta2',isClean=True)
+ #   process_pandas2('./raw_data/books/book_snippet.xlsx', is_train_file=True, save_folder='./data/books' , isClean=True)
    # process_twitter('./raw_data/twitter/test.txt', is_train_file=False, save_folder='./data/twitter')
     # process_fsauor('./raw_data/fsauor2018/train.csv', save_path='./data/fsauor/train.csv')
     # process_fsauor('./raw_data/fsauor2018/valid.csv', save_path='./data/fsauor/valid.csv')

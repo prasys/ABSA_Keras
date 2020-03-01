@@ -13,6 +13,7 @@ import locale
 import collections
 import numpy as np
 import warnings
+import sys
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
@@ -78,22 +79,23 @@ def getPredictedValue(model,documentVector,predictInput):
 
 
 if __name__ == '__main__':
+    if len(sys.argv[1]) > 1:
+        modelName = sys.argv[1]
+    else :
+        modelName = 'td_lstm'
     # locale.getpreferredencoding = getpreferredencoding a
     saveFolder = './data/output'
     filePath = './raw_data/alta/test_alta_dataset.csv'
-    # nlp = spacy.load("en_core_web_sm") # load our spacy model for it
-    # nlp.tokenizer = Tokenizer(nlp.vocab)
-    # #Checking if we can preprocess them properly and then load our model to check if it would work or not
     praw.process_pandas2(filePath, is_train_file=False, save_folder=saveFolder , isClean=True, countSentence=True) # this will process raw
     glove_vectors, glove_embed_dim = prepro.load_glove_format('./raw_data/glove.42B.300d.txt') # load the embeddings
     prepro.process_predict(saveFolder, lambda x: prepro.spacyTokenizer_train(x,True,True), True) # this would do the pre_processing for the data to predict
     config = Config() # load our config file
     config.use_elmo = True
-    config.use_elmo_alone = False
-    config.elmo_trainable = False
-    config.word_embed_trainable = True
+    config.use_elmo_alone = True
+    config.elmo_trainable = True
+    config.word_embed_trainable = False
     config.aspect_embed_trainable = True
-    model = loadModel('alta2', 'twitter', 'word', 'td_lstm') # pick when model to load and to do the test
+    model = loadModel('alta2', 'twitter', 'word', modelName) # pick when model to load and to do the test #td_lstm
     predict_input = load_input_data('output', 'test', config.level, config.use_text_input, config.use_text_input_l, #temp workaround
                              config.use_text_input_r, config.use_text_input_r_with_pad, config.use_aspect_input,
                              config.use_aspect_text_input, config.use_loc_input, config.use_offset_input,

@@ -12,9 +12,9 @@ def test_train_split(embeddings,seed=42):
 
 
 if __name__ == '__main__':
-	filePath = './data/alta2'
-	df_train = pd.read_csv('./raw_data/alta/train_alta_dataset.csv')
-	df_test = pd.read_csv('./raw_data/alta/test_alta_dataset.csv')
+	filePath = './data/books'
+	df_train = pd.read_csv('./raw_data/books/BooksTrain2.csv')
+	df_test = pd.read_csv('./raw_data/books/BooksTest.csv')
 	frames = [df_train, df_test]
 	result = pd.concat(frames)
 

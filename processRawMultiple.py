@@ -12,9 +12,9 @@ def test_train_split(embeddings,seed=42):
 
 
 if __name__ == '__main__':
-	filePath = './data/books'
-	df_train = pd.read_csv('./raw_data/books/BooksTrain2.csv')
-	df_test = pd.read_csv('./raw_data/books/BooksTest.csv')
+	filePath = './data/twitter'
+	df_train = pd.read_csv('./raw_data/twitter/TweetsProcessedTrain.csv')
+	df_test = pd.read_csv('./raw_data/twitter/TweetsProcessedTest.csv')
 	frames = [df_train, df_test]
 	result = pd.concat(frames)
 

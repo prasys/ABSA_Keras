@@ -782,7 +782,7 @@ if __name__ == '__main__':
 	data = pickle.load(file)
 
 	for seed in data:
-		filePath = './data/alta2' + "/" + str(seed)
+		filePath = './data/twitter' + "/" + str(seed)
 		# print("preprocessing" + str(seed))
 		pre_process(filePath, lambda x: spacyTokenizer(x), True)
 

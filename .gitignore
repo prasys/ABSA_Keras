@@ -125,3 +125,4 @@ raw_data/glove.twitter.27B.200d.txt
 raw_data/glove.twitter.27B.zip
 raw_data/alta/balanced_test1.csv.lite
 crawl-300d-2M.vec.zip
+out_nb.txt
